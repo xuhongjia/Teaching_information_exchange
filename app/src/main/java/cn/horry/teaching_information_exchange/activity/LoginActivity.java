@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -95,6 +96,8 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("教学信息交流平台");
+        toolbar.setTitleTextColor(Color.YELLOW);
         setSupportActionBar(toolbar);
     }
 
