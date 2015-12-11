@@ -160,7 +160,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mAccount.getText().toString();
+        String account = mAccount.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -173,13 +173,13 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        // Check for a valid account address.
+        if (TextUtils.isEmpty(account)) {
             mAccount.setError(getString(R.string.error_field_required));
             focusView = mAccount;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mAccount.setError(getString(R.string.error_invalid_email));
+        } else if (!isEmailValid(account)) {
+            mAccount.setError(getString(R.string.error_invalid_account));
             focusView = mAccount;
             cancel = true;
         }
@@ -192,7 +192,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(account, password);
             mAuthTask.execute((Void) null);
         }
     }
@@ -303,11 +303,11 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
+        private final String mAccount;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
+        UserLoginTask(String account, String password) {
+            mAccount = account;
             mPassword = password;
         }
 
@@ -324,7 +324,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
+                if (pieces[0].equals(mAccount)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
