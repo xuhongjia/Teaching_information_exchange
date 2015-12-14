@@ -1,15 +1,14 @@
 package cn.horry.teaching_information_exchange.activity;
 
-import android.app.Activity;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
-import java.util.LinkedList;
 
 import cn.horry.teaching_information_exchange.ActivityManager;
 
 public class BaseActivity extends AppCompatActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,5 +37,10 @@ public class BaseActivity extends AppCompatActivity {
         super.onStop();
     }
 
-
+    public void showLongText(String msg){
+        Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
+    }
+    public void showShortText(String msg){
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    }
 }

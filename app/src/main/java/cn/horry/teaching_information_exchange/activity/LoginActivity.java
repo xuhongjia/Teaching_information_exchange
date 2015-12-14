@@ -3,6 +3,7 @@ package cn.horry.teaching_information_exchange.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -27,13 +28,28 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.reflect.TypeToken;
+
+import org.kymjs.kjframe.http.HttpCallBack;
+import org.kymjs.kjframe.ui.AnnotateUtil;
+import org.kymjs.kjframe.ui.BindView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.horry.teaching_information_exchange.GsonManager;
 import cn.horry.teaching_information_exchange.R;
+import cn.horry.teaching_information_exchange.UserManager;
+import cn.horry.teaching_information_exchange.api.UserApi;
+import cn.horry.teaching_information_exchange.entity.GeneralResponse;
+import cn.horry.teaching_information_exchange.entity.User;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -47,33 +63,31 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
+    @BindView(id = R.id.account)
     private AutoCompleteTextView mAccount;
+    @BindView(id = R.id.password)
     private EditText mPasswordView;
+    @BindView(id = R.id.login_progress)
     private View mProgressView;
+    @BindView(id = R.id.login_form)
     private View mLoginFormView;
+    @BindView(id = R.id.toolbar)
     private Toolbar toolbar;
+    @BindView(id = R.id.isTeacher)
+    private RadioGroup isTeacher;
+    private int IsTeacher;
+    @BindView(id = R.id.rootLayout)
+    private View rootLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        AnnotateUtil.initBindView(this);
         // Set up the login form.
-        mAccount = (AutoCompleteTextView) findViewById(R.id.account);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -85,20 +99,30 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        Button SignInButton = (Button) findViewById(R.id.sign_in_button);
+        SignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("教学信息交流平台");
         toolbar.setTitleTextColor(Color.YELLOW);
         setSupportActionBar(toolbar);
+        isTeacher.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.teacher)
+                {
+                    IsTeacher = 1;
+                    showShortText("是教师");
+                }
+                else
+                {
+                    IsTeacher = 0;
+                }
+            }
+        });
     }
 
     private void populateAutoComplete() {
@@ -144,16 +168,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         }
     }
 
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mAccount.setError(null);
@@ -173,13 +188,9 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             cancel = true;
         }
 
-        // Check for a valid account address.
+        // 检测账号
         if (TextUtils.isEmpty(account)) {
             mAccount.setError(getString(R.string.error_field_required));
-            focusView = mAccount;
-            cancel = true;
-        } else if (!isEmailValid(account)) {
-            mAccount.setError(getString(R.string.error_invalid_account));
             focusView = mAccount;
             cancel = true;
         }
@@ -192,16 +203,32 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(account, password);
-            mAuthTask.execute((Void) null);
+            UserApi.login(account, password, IsTeacher, new HttpCallBack() {
+                @Override
+                public void onSuccess(String t) {
+                    super.onSuccess(t);
+                    GeneralResponse<User> response = GsonManager.getInstance().getGson().fromJson(t, new TypeToken<GeneralResponse<User>>() {
+                    }.getType());
+                    if (response.isSuccess()) {
+                        UserManager.getInstance().setUser(response.getData());
+                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                        showShortText("登录成功");
+                    } else {
+                        showShortText("登录失败");
+                    }
+                    showProgress(false);
+                }
+
+                @Override
+                public void onFailure(int errorNo, String strMsg) {
+                    super.onFailure(errorNo, strMsg);
+                }
+            });
+
         }
     }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
-
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
@@ -218,12 +245,12 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+            rootLayout.setVisibility(show ? View.GONE : View.VISIBLE);
+            rootLayout.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    rootLayout.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
@@ -239,7 +266,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            rootLayout.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -297,61 +324,5 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         int IS_PRIMARY = 1;
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mAccount;
-        private final String mPassword;
-
-        UserLoginTask(String account, String password) {
-            mAccount = account;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mAccount)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
 }
 
