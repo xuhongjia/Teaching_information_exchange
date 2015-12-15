@@ -1,4 +1,4 @@
-package cn.horry.teaching_information_exchange.activity;
+package cn.horry.teaching_information_exchange.ui.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -14,7 +14,6 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -28,12 +27,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -44,9 +40,9 @@ import org.kymjs.kjframe.ui.BindView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.horry.teaching_information_exchange.GsonManager;
+import cn.horry.teaching_information_exchange.ui.GsonManager;
 import cn.horry.teaching_information_exchange.R;
-import cn.horry.teaching_information_exchange.UserManager;
+import cn.horry.teaching_information_exchange.ui.UserManager;
 import cn.horry.teaching_information_exchange.api.UserApi;
 import cn.horry.teaching_information_exchange.entity.GeneralResponse;
 import cn.horry.teaching_information_exchange.entity.User;
@@ -116,6 +112,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                 {
                     IsTeacher = 1;
                     showShortText("是教师");
+
                 }
                 else
                 {

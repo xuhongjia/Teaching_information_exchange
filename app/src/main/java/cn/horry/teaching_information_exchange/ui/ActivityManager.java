@@ -1,4 +1,4 @@
-package cn.horry.teaching_information_exchange;
+package cn.horry.teaching_information_exchange.ui;
 
 import android.app.Activity;
 

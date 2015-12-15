@@ -1,4 +1,4 @@
-package cn.horry.teaching_information_exchange.activity;
+package cn.horry.teaching_information_exchange.ui.activity;
 
 
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 
-import cn.horry.teaching_information_exchange.ActivityManager;
+import cn.horry.teaching_information_exchange.ui.ActivityManager;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -30,6 +30,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ActivityManager.getInstance().removeLastActivity();
+
     }
 
     @Override

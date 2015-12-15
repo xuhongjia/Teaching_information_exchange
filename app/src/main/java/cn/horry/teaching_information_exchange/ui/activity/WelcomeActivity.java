@@ -1,4 +1,4 @@
-package cn.horry.teaching_information_exchange.activity;
+package cn.horry.teaching_information_exchange.ui.activity;
 
 import android.content.Intent;
 import android.os.Handler;
