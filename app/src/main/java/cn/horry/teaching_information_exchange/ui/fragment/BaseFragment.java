@@ -25,14 +25,14 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mContext = (BaseActivity) getActivity();
-        onInitData();
-        onInitView();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = setRootView(inflater,container);
-        AnnotateUtil.initBindView(rootView);
+        AnnotateUtil.initBindView(this,rootView);
+        onInitData();
+        onInitView();
         return rootView;
     }
     public abstract View setRootView(LayoutInflater inflater, ViewGroup container);
@@ -53,14 +53,7 @@ public abstract class BaseFragment extends Fragment {
             showData();
         }
     }
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        // 每次切换fragment时调用的方法
-        if (isVisibleToUser) {
-            showData();
-        }
-    }
+
     //界面重新显示出来
     public void onActive(){
 

@@ -1,10 +1,15 @@
 package cn.horry.teaching_information_exchange.ui.activity;
 
+import android.graphics.Matrix;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -32,7 +37,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RadioGroup menu;
     @BindView(id = R.id.viewPager)
     private MyViewPager viewPager; //滑动切换Fragment
-    private List<BaseFragment> fragmentList ;
     @BindView(id = R.id.sign_in)
     private RadioButton sign_in;
     @BindView(id = R.id.homework)
@@ -41,11 +45,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RadioButton feedback;
     private ViewPager.OnPageChangeListener changeListener;
     private boolean isTeacher;
+    private List<BaseFragment> fragmentList ;
+    private int currIndex = 0;
+    private int bottomLineWidth;
+    private int offset = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AnnotateUtil.initBindView(this);
+        InitWidth();
         initData();
         initWidget();
     }
@@ -64,6 +73,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onPageSelected(int position) {
+                int one = offset * 2 + bottomLineWidth;// 页卡1 -> 页卡2 偏移量
+                Animation animation = new TranslateAnimation(one * currIndex, one * position, 0, 0);// 显然这个比较简洁，只有一行代码。
+                currIndex = position;
+                animation.setFillAfter(true);
+                animation.setDuration(100);
+
                 switch (position)
                 {
                     case 0:
@@ -86,21 +101,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         };
         viewPager.setOffscreenPageLimit(3);
-        viewPager.setCurrentItem(0,false);
+        viewPager.setCurrentItem(0, false);
         viewPager.setOnPageChangeListener(changeListener);
         menu.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId)
-                {
+                switch (checkedId) {
                     case R.id.sign_in:
-                        viewPager.setCurrentItem(0,false);
+                        viewPager.setCurrentItem(0, false);
                         break;
                     case R.id.homework:
-                        viewPager.setCurrentItem(1,false);
+                        viewPager.setCurrentItem(1, false);
                         break;
                     case R.id.feedback:
-                        viewPager.setCurrentItem(2,false);
+                        viewPager.setCurrentItem(2, false);
                         break;
                     default:
                         break;
@@ -108,7 +122,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         });
     }
+    private void InitWidth() {
+        int screenWidth;// 屏幕宽度 如果是使用图片可以使用另一篇文章的宽度计算方法
+        WindowManager windowManager = getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        screenWidth = display.getWidth();
 
+        bottomLineWidth = screenWidth / 3;
+
+
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int screenW = dm.widthPixels;// 获取分辨率宽度
+        offset = (screenW / 3 - bottomLineWidth) / 2;// 计算偏移量
+
+        Matrix matrix = new Matrix();
+        matrix.postTranslate(offset, 0);
+
+    }
     /**
      * 初始化FragmentList
      */

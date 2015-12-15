@@ -15,11 +15,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_above="@+id/menu"
+            android:layout_above="@+id/divider"
             >
             <include layout="@layout/inc_head_bar"/>
             <include layout="@layout/content_main"/>
         </LinearLayout>
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"
+            android:layout_above="@+id/menu"/>
         <RadioGroup
             android:id="@+id/menu"
             android:layout_width="match_parent"
@@ -32,7 +38,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:checked="true"
-                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:drawableTop="@drawable/sign_in_radio_button_selector"
                 android:background="@drawable/radio_button_selector"
@@ -48,16 +57,16 @@
                 android:background="@drawable/radio_button_selector"
                 android:textColor="@drawable/radio_button_text_color_selector"
                 android:button="@null"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
                 android:layout_weight="1"
                 android:layout_marginRight="5dp"
                 android:text="作业"/>
             <RadioButton
                 android:id="@+id/feedback"
                 android:layout_width="0dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:background="@drawable/radio_button_selector"
