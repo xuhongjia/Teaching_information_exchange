@@ -2,16 +2,27 @@ package cn.horry.teaching_information_exchange.ui.activity;
 
 import android.graphics.Matrix;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.kymjs.kjframe.ui.AnnotateUtil;
 import org.kymjs.kjframe.ui.BindView;
@@ -30,9 +41,10 @@ import cn.horry.teaching_information_exchange.ui.fragment.teacher.FeedBackFragme
 import cn.horry.teaching_information_exchange.ui.fragment.teacher.HomeWorkFragment;
 import cn.horry.teaching_information_exchange.ui.fragment.teacher.SignInFragment;
 import cn.horry.teaching_information_exchange.widget.MyViewPager;
+import cn.horry.teaching_information_exchange.widget.RoundCornerImageView;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
-
+public class MainActivity extends BaseActivity
+        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
     @BindView(id = R.id.menu )
     private RadioGroup menu;
     @BindView(id = R.id.viewPager)
@@ -43,12 +55,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RadioButton homework;
     @BindView(id = R.id.feedback)
     private RadioButton feedback;
+    @BindView(id = R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(id = R.id.drawer_layout)
+    private DrawerLayout drawer;
+    @BindView(id = R.id.nav_view)
+    private NavigationView navigationView;
+    /**
+     * nav_header_main
+     */
+    private RoundCornerImageView myImageView;
+    private TextView myTextView;
+
     private ViewPager.OnPageChangeListener changeListener;
     private boolean isTeacher;
     private List<BaseFragment> fragmentList ;
     private int currIndex = 0;
     private int bottomLineWidth;
     private int offset = 0;
+    private int screenW;
+    private int screenH;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,20 +83,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         InitWidth();
         initData();
         initWidget();
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
     }
-
     /**
      * 初始化控件
      */
     public void initWidget(){
         initFragmentList();
+        addhead();
         viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList));
         changeListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
-
             @Override
             public void onPageSelected(int position) {
                 int one = offset * 2 + bottomLineWidth;// 页卡1 -> 页卡2 偏移量
@@ -78,7 +109,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 currIndex = position;
                 animation.setFillAfter(true);
                 animation.setDuration(100);
-
                 switch (position)
                 {
                     case 0:
@@ -109,32 +139,53 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 switch (checkedId) {
                     case R.id.sign_in:
                         viewPager.setCurrentItem(0, false);
+                        currIndex = 0;
                         break;
                     case R.id.homework:
                         viewPager.setCurrentItem(1, false);
+                        currIndex = 1;
                         break;
                     case R.id.feedback:
                         viewPager.setCurrentItem(2, false);
+                        currIndex = 2;
                         break;
                     default:
                         break;
                 }
             }
         });
+
+    }
+    private void addhead(){
+        //动态添加头布局，因为静态头布局无法引入里面的控件
+        View view = LayoutInflater.from(this).inflate(R.layout.nav_header_main, null);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                , ViewGroup.LayoutParams.WRAP_CONTENT));
+        RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.nav_header);
+        relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                screenH/3));
+        myImageView = (RoundCornerImageView) relativeLayout.findViewById(R.id.imageView);
+        myTextView = (TextView)relativeLayout.findViewById(R.id.name);
+        navigationView.addHeaderView(view);
+        myImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //去到我的设置页面
+            }
+        });
     }
     private void InitWidth() {
-        int screenWidth;// 屏幕宽度 如果是使用图片可以使用另一篇文章的宽度计算方法
+        int screenWidth;
+        // 屏幕宽度 如果是使用图片可以使用另一篇文章的宽度计算方法
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         screenWidth = display.getWidth();
-
         bottomLineWidth = screenWidth / 3;
-
-
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int screenW = dm.widthPixels;// 获取分辨率宽度
+        screenW = dm.widthPixels;// 获取分辨率宽度
+        screenH =dm.heightPixels;
         offset = (screenW / 3 - bottomLineWidth) / 2;// 计算偏移量
 
         Matrix matrix = new Matrix();
@@ -181,5 +232,56 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             default:
                 break;
         }
+    }
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.my_sign_in) {
+            // Handle the camera action
+        } else if (id == R.id.my_home_work) {
+
+        } else if (id == R.id.my_feed_back) {
+
+        } else if (id == R.id.login_out) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

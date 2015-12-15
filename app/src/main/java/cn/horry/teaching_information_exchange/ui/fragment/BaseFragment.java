@@ -25,14 +25,14 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mContext = (BaseActivity) getActivity();
+        onInitData();
+        onInitView();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = setRootView(inflater,container);
         AnnotateUtil.initBindView(this,rootView);
-        onInitData();
-        onInitView();
         return rootView;
     }
     public abstract View setRootView(LayoutInflater inflater, ViewGroup container);

@@ -5,12 +5,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import org.kymjs.kjframe.ui.BindView;
 
 import cn.horry.teaching_information_exchange.R;
 import cn.horry.teaching_information_exchange.ui.fragment.BaseFragment;
+import cn.horry.teaching_information_exchange.widget.PullableListView;
 
 public class SignInFragment extends BaseFragment {
 
+    @BindView(id = R.id.sign_in_listview)
+    PullableListView sign_in_listview;
     public SignInFragment() {
         super();
     }

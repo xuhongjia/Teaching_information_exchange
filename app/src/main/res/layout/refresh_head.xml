@@ -3,7 +3,7 @@
     android:id="@+id/head_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_blue" >
+    android:background="@color/white" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="60dp"
-                android:background="@drawable/pull_icon_big" />
+                android:background="@mipmap/pull_icon_big" />
 
             <ImageView
                 android:id="@+id/refreshing_icon"
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="60dp"
-                android:background="@drawable/refreshing"
+                android:background="@mipmap/refreshing"
                 android:visibility="gone" />
 
             <TextView
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/pull_to_refresh"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="16sp" />
 
             <ImageView
