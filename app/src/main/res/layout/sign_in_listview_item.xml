@@ -3,9 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
     <TextView
+        android:id="@+id/course_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""/>
+        android:textSize="18sp"
+        android:gravity="center_vertical"
+        android:textColor="@color/gray"
+        android:text="asdasdasd"
+        android:drawableRight="@mipmap/youjiantou"
+        android:padding="8dp"/>
 </LinearLayout>

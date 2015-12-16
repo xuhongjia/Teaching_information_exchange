@@ -7,12 +7,10 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".ui.activity.MainActivity">
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Fullscreen.AppBarOverlay">
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -21,9 +19,5 @@
             app:popupTheme="@style/Fullscreen.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
-
     <include layout="@layout/content_main" />
-
-
-
 </android.support.design.widget.CoordinatorLayout>

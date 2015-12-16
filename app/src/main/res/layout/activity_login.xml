@@ -21,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff">
-
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_height"
@@ -62,7 +61,6 @@
             android:padding="5dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
             <LinearLayout
-                android:id="@+id/email_login_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -99,17 +97,6 @@
                         android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
-                <!--<Switch-->
-                <!--android:id="@+id/isTeacher"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="17dp"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:text="学生"-->
-                <!--android:textColor="#666"-->
-                <!--android:textOff="学生"-->
-                <!--android:textSize="18sp"-->
-                <!--android:textOn="教师"/>-->
                 <RadioGroup
                     android:id="@+id/isTeacher"
                     android:layout_marginTop="10dp"
