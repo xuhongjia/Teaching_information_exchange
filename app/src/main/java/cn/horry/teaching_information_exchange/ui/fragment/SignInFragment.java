@@ -1,4 +1,4 @@
-package cn.horry.teaching_information_exchange.ui.fragment.teacher;
+package cn.horry.teaching_information_exchange.ui.fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;

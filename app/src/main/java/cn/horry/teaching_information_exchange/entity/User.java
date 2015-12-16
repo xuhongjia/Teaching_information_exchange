@@ -8,6 +8,7 @@ public class User {
 	private Integer age;
 	private Integer sex;
 	private Integer isTeacher;
+	private String img;
 	private Long LastLoginTime;
 	public Integer getId() {
 		return id;
@@ -57,5 +58,10 @@ public class User {
 	public void setLastLoginTime(Long lastLoginTime) {
 		LastLoginTime = lastLoginTime;
 	}
-	
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
+	}
 }

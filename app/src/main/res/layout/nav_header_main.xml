@@ -22,18 +22,19 @@
         android:paddingTop="@dimen/activity_vertical_margin">
         <cn.horry.teaching_information_exchange.widget.RoundCornerImageView
             android:id="@+id/imageView"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:src="@color/colorAccent1"
-            app:roundWidth="20dp"
-            app:roundHeight="20dp"/>
+            app:roundWidth="10dp"
+            app:roundHeight="10dp"/>
 
         <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:textSize="18sp"
+            android:layout_marginLeft="15dp"
+            android:textSize="20sp"
             android:text="Android Studio"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

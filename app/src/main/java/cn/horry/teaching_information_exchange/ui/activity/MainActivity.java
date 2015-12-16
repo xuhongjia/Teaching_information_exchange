@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -34,12 +33,10 @@ import cn.horry.teaching_information_exchange.R;
 import cn.horry.teaching_information_exchange.adapter.MyFragmentPagerAdapter;
 import cn.horry.teaching_information_exchange.ui.UserManager;
 import cn.horry.teaching_information_exchange.ui.fragment.BaseFragment;
-import cn.horry.teaching_information_exchange.ui.fragment.student.FeedBackStudentFragment;
-import cn.horry.teaching_information_exchange.ui.fragment.student.HomeWorkStudentFragment;
-import cn.horry.teaching_information_exchange.ui.fragment.student.SignInStudentFragment;
-import cn.horry.teaching_information_exchange.ui.fragment.teacher.FeedBackFragment;
-import cn.horry.teaching_information_exchange.ui.fragment.teacher.HomeWorkFragment;
-import cn.horry.teaching_information_exchange.ui.fragment.teacher.SignInFragment;
+import cn.horry.teaching_information_exchange.ui.fragment.FeedBackFragment;
+import cn.horry.teaching_information_exchange.ui.fragment.HomeWorkFragment;
+import cn.horry.teaching_information_exchange.ui.fragment.SignInFragment;
+import cn.horry.teaching_information_exchange.utils.ImageUrlLoaderWithCache;
 import cn.horry.teaching_information_exchange.widget.MyViewPager;
 import cn.horry.teaching_information_exchange.widget.RoundCornerImageView;
 
@@ -154,7 +151,6 @@ public class MainActivity extends BaseActivity
                 }
             }
         });
-
     }
     private void addhead(){
         //动态添加头布局，因为静态头布局无法引入里面的控件
@@ -165,7 +161,9 @@ public class MainActivity extends BaseActivity
         relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 screenH/3));
         myImageView = (RoundCornerImageView) relativeLayout.findViewById(R.id.imageView);
+        ImageUrlLoaderWithCache.getInstence().ImageLoad(UserManager.getInstance().getUser().getImg(),myImageView);
         myTextView = (TextView)relativeLayout.findViewById(R.id.name);
+        myTextView.setText(UserManager.getInstance().getUser().getName());
         navigationView.addHeaderView(view);
         myImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,18 +195,9 @@ public class MainActivity extends BaseActivity
      */
     public void initFragmentList(){
         fragmentList = new ArrayList<BaseFragment>();
-        if(isTeacher)
-        {
-            fragmentList.add(new SignInFragment());
-            fragmentList.add(new HomeWorkFragment());
-            fragmentList.add(new FeedBackFragment());
-        }
-        else
-        {
-            fragmentList.add(new SignInStudentFragment());
-            fragmentList.add(new HomeWorkStudentFragment());
-            fragmentList.add(new FeedBackStudentFragment());
-        }
+        fragmentList.add(new SignInFragment());
+        fragmentList.add(new HomeWorkFragment());
+        fragmentList.add(new FeedBackFragment());
     }
 
     /**

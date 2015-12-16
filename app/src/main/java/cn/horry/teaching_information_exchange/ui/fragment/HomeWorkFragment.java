@@ -1,4 +1,4 @@
-package cn.horry.teaching_information_exchange.ui.fragment.student;
+package cn.horry.teaching_information_exchange.ui.fragment;
 
 
 import android.os.Bundle;
@@ -13,16 +13,16 @@ import cn.horry.teaching_information_exchange.ui.fragment.BaseFragment;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeWorkStudentFragment extends BaseFragment {
+public class HomeWorkFragment extends BaseFragment {
 
 
-    public HomeWorkStudentFragment() {
-        // Required empty public constructor
+    public HomeWorkFragment() {
+        super();
     }
 
     @Override
     public View setRootView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_home_work_student, container, false);
+        return inflater.inflate(R.layout.fragment_home_work, container, false);
     }
 
     @Override
@@ -34,5 +34,4 @@ public class HomeWorkStudentFragment extends BaseFragment {
     public void onInitData() {
 
     }
-
 }

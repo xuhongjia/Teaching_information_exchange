@@ -44,17 +44,17 @@ public  class PullToRefreshLayout extends RelativeLayout {
     public static final int FAIL = 1;
     // 按下Y坐标，上一个事件点Y坐标
     private float downY, lastY;
- 
+
     // 下拉的距离。注意：pullDownY和pullUpY不可能同时不为0
     public float pullDownY = 0;
     // 上拉的距离
     private float pullUpY = 0;
- 
+
     // 释放刷新的距离
     private float refreshDist = 200;
     // 释放加载的距离
     private float loadmoreDist = 200;
- 
+
     private MyTimer timer;
     // 回滚速度
     public float MOVE_SPEED = 8;
@@ -64,12 +64,12 @@ public  class PullToRefreshLayout extends RelativeLayout {
     private boolean isTouch = false;
     // 手指滑动距离与下拉头的滑动距离比，中间会随正切函数变化
     private float radio = 2;
- 
+
     // 下拉箭头的转180°动画
     private RotateAnimation rotateAnimation;
     // 均匀旋转动画
     private RotateAnimation refreshingAnimation;
- 
+
     // 下拉头
     private View refreshView;
     // 下拉的箭头
@@ -80,7 +80,7 @@ public  class PullToRefreshLayout extends RelativeLayout {
     private View refreshStateImageView;
     // 刷新结果：成功或失败
     private TextView refreshStateTextView;
- 
+
     // 上拉头
     private View loadmoreView;
     // 上拉的箭头
@@ -91,7 +91,7 @@ public  class PullToRefreshLayout extends RelativeLayout {
     private View loadStateImageView;
     // 加载结果：成功或失败
     private TextView loadStateTextView;
- 
+
     // 实现了Pullable接口的View
     private View pullableView;
     // 过滤多点触碰
@@ -99,13 +99,13 @@ public  class PullToRefreshLayout extends RelativeLayout {
     // 这两个变量用来控制pull的方向，如果不加控制，当情况满足可上拉又可下拉时没法下拉
     private boolean canPullDown = true;
     private boolean canPullUp = true;
- 
+
     /**
      * 执行自动回滚的handler
      */
     Handler updateHandler = new Handler()
     {
- 
+
         @Override
         public void handleMessage(Message msg)
         {
@@ -124,7 +124,7 @@ public  class PullToRefreshLayout extends RelativeLayout {
                     pullUpY = -loadmoreDist;
                     timer.cancel();
                 }
- 
+
             }
             if (pullDownY > 0)
                 pullDownY -= MOVE_SPEED;
@@ -153,32 +153,32 @@ public  class PullToRefreshLayout extends RelativeLayout {
             // 刷新布局,会自动调用onLayout
             requestLayout();
         }
- 
+
     };
- 
+
     public void setOnRefreshListener(OnRefreshListener listener)
     {
         mListener = listener;
     }
- 
+
     public PullToRefreshLayout(Context context)
     {
         super(context);
         initView(context);
     }
- 
+
     public PullToRefreshLayout(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         initView(context);
     }
- 
+
     public PullToRefreshLayout(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         initView(context);
     }
- 
+
     private void initView(Context context)
     {
         timer = new MyTimer(updateHandler);
@@ -191,12 +191,12 @@ public  class PullToRefreshLayout extends RelativeLayout {
         rotateAnimation.setInterpolator(lir);
         refreshingAnimation.setInterpolator(lir);
     }
- 
+
     private void hide()
     {
         timer.schedule(5);
     }
- 
+
     /**
      * 完成刷新操作，显示刷新结果。注意：刷新完成后一定要调用这个方法
      */
@@ -237,10 +237,10 @@ public  class PullToRefreshLayout extends RelativeLayout {
             }
         }.sendEmptyMessageDelayed(0, 1000);
     }
- 
+
     /**
      * 加载完毕，显示加载结果。注意：加载完成后一定要调用这个方法
-     * 
+     *
      * @param refreshResult
      *            PullToRefreshLayout.SUCCEED代表成功，PullToRefreshLayout.FAIL代表失败
      */
@@ -275,7 +275,7 @@ public  class PullToRefreshLayout extends RelativeLayout {
             }
         }.sendEmptyMessageDelayed(0, 1000);
     }
- 
+
     private void changeState(int to)
     {
         state = to;
@@ -324,7 +324,7 @@ public  class PullToRefreshLayout extends RelativeLayout {
             break;
         }
     }
- 
+
     /**
      * 不限制上拉或下拉
      */
@@ -333,10 +333,10 @@ public  class PullToRefreshLayout extends RelativeLayout {
         canPullDown = true;
         canPullUp = true;
     }
- 
+
     /*
      * （非 Javadoc）由父控件决定是否分发事件，防止事件冲突
-     * 
+     *
      * @see android.view.ViewGroup#dispatchTouchEvent(android.view.MotionEvent)
      */
     @Override
@@ -457,7 +457,7 @@ public  class PullToRefreshLayout extends RelativeLayout {
         super.dispatchTouchEvent(ev);
         return true;
     }
- 
+
     private void initView()
     {
         // 初始化下拉布局
@@ -473,7 +473,7 @@ public  class PullToRefreshLayout extends RelativeLayout {
         loadingView = loadmoreView.findViewById(R.id.loading_icon);
         loadStateImageView = loadmoreView.findViewById(R.id.loadstate_iv);
     }
- 
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b)
     {
@@ -503,19 +503,19 @@ public  class PullToRefreshLayout extends RelativeLayout {
                 (int) (pullDownY + pullUpY) + pullableView.getMeasuredHeight()
                         + loadmoreView.getMeasuredHeight());
     }
- 
+
     class MyTimer
     {
         private Handler handler;
         private Timer timer;
         private MyTask mTask;
- 
+
         public MyTimer(Handler handler)
         {
             this.handler = handler;
             timer = new Timer();
         }
- 
+
         public void schedule(long period)
         {
             if (mTask != null)
@@ -526,7 +526,7 @@ public  class PullToRefreshLayout extends RelativeLayout {
             mTask = new MyTask(handler);
             timer.schedule(mTask, 0, period);
         }
- 
+
         public void cancel()
         {
             if (mTask != null)
@@ -535,30 +535,30 @@ public  class PullToRefreshLayout extends RelativeLayout {
                 mTask = null;
             }
         }
- 
+
         class MyTask extends TimerTask
         {
             private Handler handler;
- 
+
             public MyTask(Handler handler)
             {
                 this.handler = handler;
             }
- 
+
             @Override
             public void run()
             {
                 handler.obtainMessage().sendToTarget();
             }
- 
+
         }
     }
- 
+
     /**
      * 刷新加载回调接口
-     * 
+     *
      * @author chenjing
-     * 
+     *
      */
     public interface OnRefreshListener
     {
@@ -566,7 +566,7 @@ public  class PullToRefreshLayout extends RelativeLayout {
          * 刷新操作
          */
         void onRefresh(PullToRefreshLayout pullToRefreshLayout);
- 
+
         /**
          * 加载操作
          */

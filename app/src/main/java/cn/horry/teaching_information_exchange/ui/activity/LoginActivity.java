@@ -6,6 +6,8 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -164,7 +166,16 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             }
         }
     }
-
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            showProgress(false);
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    };
     private void attemptLogin() {
 
         // Reset errors.
@@ -208,14 +219,12 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                     }.getType());
                     if (response.isSuccess()) {
                         UserManager.getInstance().setUser(response.getData());
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        handler.sendEmptyMessageDelayed(0, 2000);
                         showShortText("登录成功");
                     } else {
                         showShortText("登录失败");
+                        showProgress(false);
                     }
-                    showProgress(false);
                 }
 
                 @Override
