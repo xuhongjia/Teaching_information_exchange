@@ -14,9 +14,9 @@ public class UserApi extends API{
         MyHttpParams params  = new MyHttpParams("account",account,"password",password,"isTeacher",isTeacher);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(true).request();
     }
-    public static void getCourse(int uId , int isTeacher , HttpCallBack httpCallBack){
+    public static void getCourse(int uId , int isTeacher ,int page, HttpCallBack httpCallBack){
         String url = URL.concat("action/user/getCourse");
-        MyHttpParams params = new MyHttpParams("uId",uId,"isTeacher",isTeacher);
+        MyHttpParams params = new MyHttpParams("uId",uId,"isTeacher",isTeacher,"page",page);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(true).request();
     }
 }
