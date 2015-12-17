@@ -135,17 +135,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     case R.id.sign_in:
                         viewPager.setCurrentItem(0, false);
                         currIndex = 0;
-                        updataNotify(0);
                         break;
                     case R.id.homework:
                         viewPager.setCurrentItem(1, false);
                         currIndex = 1;
-                        updataNotify(1);
                         break;
                     case R.id.feedback:
                         viewPager.setCurrentItem(2, false);
                         currIndex = 2;
-                        updataNotify(2);
                         break;
                     default:
                         break;
@@ -153,9 +150,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
     }
-    private void updataNotify(int i){
-        fragmentList.get(i).getAdapter().notifyDataSetChanged();
-    }
+
     /**
      * 初始化navigation的头部
      */

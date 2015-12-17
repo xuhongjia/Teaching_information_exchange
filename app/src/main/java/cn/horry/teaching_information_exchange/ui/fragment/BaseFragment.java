@@ -26,6 +26,7 @@ import cn.horry.teaching_information_exchange.api.UserApi;
 import cn.horry.teaching_information_exchange.entity.Course;
 import cn.horry.teaching_information_exchange.entity.GeneralResponse;
 import cn.horry.teaching_information_exchange.listener.PullRefreshListener;
+import cn.horry.teaching_information_exchange.ui.FragmentCourseManager;
 import cn.horry.teaching_information_exchange.ui.UserManager;
 import cn.horry.teaching_information_exchange.ui.activity.BaseActivity;
 
@@ -36,10 +37,8 @@ public abstract class BaseFragment extends Fragment {
     private BaseActivity mContext = null;
     private View rootView;
     private boolean isInit;
-    private List<Course> data = new ArrayList<>();
-    private CommonBaseAdapter<Course> adapter ;
     private PullRefreshListener<Course> pullRefreshListener;
-    private int page;
+    private FragmentCourseManager fManager;
     public BaseFragment(){
     }
     //视图创建完成
@@ -47,28 +46,21 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mContext = (BaseActivity) getActivity();
+        fManager = FragmentCourseManager.getInstance(mContext);
         onInitData();
-        adapter = new CommonBaseAdapter<Course>(mContext,getData(),R.layout.sign_in_listview_item) {
-            @Override
-            public void convert(ViewHolder holder, Course course) {
-                TextView course_name = holder.getView(R.id.course_name);
-                course_name.setText(course.getName());
-                course_name.setTag(course);
-            }
-        };
-        pullRefreshListener = new PullRefreshListener<Course>(getData(),getAdapter()) {
+        pullRefreshListener = new PullRefreshListener<Course>(fManager.getData(),fManager.getAdapter()) {
             //msg.what为100是加载最新，200为加载更多
             @Override
             public void updataRefresh(CommonBaseAdapter adapter, List<Course> data, Message msg, Handler handler) {
-                handler.sendMessageDelayed(msg,1500);
-                page=0;
+                handler.sendMessageDelayed(msg, 1500);
+                fManager.setPage(0);
                 refreshData();
             }
 
             @Override
             public void updataLoadMore(CommonBaseAdapter adapter, List<Course> data, Message msg, Handler handler) {
                 handler.sendMessageDelayed(msg, 1500);
-                page++;
+                fManager.setPage(fManager.getPage()+1);
                 refreshData();
             }
         };
@@ -136,25 +128,25 @@ public abstract class BaseFragment extends Fragment {
     public void refreshData(){
         int id = UserManager.getInstance().getUser().getId();
         int isTeacher = UserManager.getInstance().getUser().getIsTeacher();
-        UserApi.getCourse(id, isTeacher,page, new HttpCallBack() {
+        UserApi.getCourse(id, isTeacher,fManager.getPage(), new HttpCallBack() {
             @Override
             public void onSuccess(String t) {
                 super.onSuccess(t);
                 GeneralResponse<List<Course>> response = new Gson().fromJson(t, new TypeToken<GeneralResponse<List<Course>>>() {
                 }.getType());
                 if (response.isSuccess()) {
-                    if(page==0) {
-                        setData(response.getData());
-                        getAdapter().setMdatas(getData());
-                        getAdapter().notifyDataSetChanged();
+                    if(fManager.getPage()==0) {
+                        fManager.setData(response.getData());
+                        fManager.getAdapter().setMdatas(fManager.getData());
+                        fManager.getAdapter().notifyDataSetChanged();
                     }else if(response.getData().size()!=0)
                     {
-                        getData().addAll(response.getData());
-                        getAdapter().notifyDataSetChanged();
+                        fManager.getData().addAll(response.getData());
+                        fManager.getAdapter().notifyDataSetChanged();
                     }
                     else
                     {
-                        page--;
+                        fManager.setPage(fManager.getPage()-1);
                     }
                 }
             }
@@ -172,21 +164,6 @@ public abstract class BaseFragment extends Fragment {
         this.rootView = rootView;
     }
 
-    public List<Course> getData() {
-        return data;
-    }
-
-    public void setData(List<Course> data) {
-        this.data = data;
-    }
-
-    public CommonBaseAdapter<Course> getAdapter() {
-        return adapter;
-    }
-
-    public void setAdapter(CommonBaseAdapter<Course> adapter) {
-        this.adapter = adapter;
-    }
 
     public PullRefreshListener<Course> getPullRefreshListener() {
         return pullRefreshListener;
@@ -194,5 +171,13 @@ public abstract class BaseFragment extends Fragment {
 
     public void setPullRefreshListener(PullRefreshListener<Course> pullRefreshListener) {
         this.pullRefreshListener = pullRefreshListener;
+    }
+
+    public FragmentCourseManager getfManager() {
+        return fManager;
+    }
+
+    public void setfManager(FragmentCourseManager fManager) {
+        this.fManager = fManager;
     }
 }

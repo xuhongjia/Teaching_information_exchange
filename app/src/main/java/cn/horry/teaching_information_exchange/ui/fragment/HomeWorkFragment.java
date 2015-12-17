@@ -49,14 +49,14 @@ public class HomeWorkFragment extends BaseFragment {
     }
     @Override
     public void onInitData() {
-        if(getData().size()==0)
+        if(getfManager().getData().size()==0)
         {
             refreshData();
         }
     }
     @Override
     public void onInitView() {
-        sign_in_listview.setAdapter(getAdapter());
+        sign_in_listview.setAdapter(getfManager().getAdapter());
         sign_in_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
