@@ -55,7 +55,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends BaseActivity  {
+public class LoginActivity extends BaseActivity  implements  OnClickListener{
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -77,6 +77,12 @@ public class LoginActivity extends BaseActivity  {
     private int IsTeacher;
     @BindView(id = R.id.rootLayout)
     private View rootLayout;
+    @BindView(id = R.id.sign_in_button , click = true)
+    private Button SignInButton;
+    @BindView(id = R.id.forget_password , click = true)
+    private TextView forget_password;
+    @BindView(id = R.id.register , click = true)
+    private TextView register;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,13 +107,6 @@ public class LoginActivity extends BaseActivity  {
             }
         });
 
-        Button SignInButton = (Button) findViewById(R.id.sign_in_button);
-        SignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
         toolbar.setTitle("教学信息交流平台");
         toolbar.setTitleTextColor(Color.YELLOW);
         setSupportActionBar(toolbar);
@@ -235,6 +234,28 @@ public class LoginActivity extends BaseActivity  {
         }
     }
 
+    public void gotoRegister(){
+        startActivity(new Intent(this,RegisterActivity.class));
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.sign_in_button:
+                //进行登录跳转
+                attemptLogin();
+                break;
+            case R.id.forget_password:
+                //忘记密码入口
+                break;
+            case R.id.register:
+                //跳转注册页面
+                gotoRegister();
+                break;
+            default:
+                break;
+        }
+    }
 }
 

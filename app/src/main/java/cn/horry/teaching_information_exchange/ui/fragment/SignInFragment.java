@@ -30,6 +30,7 @@ import cn.horry.teaching_information_exchange.ui.UserManager;
 import cn.horry.teaching_information_exchange.ui.fragment.BaseFragment;
 import cn.horry.teaching_information_exchange.widget.PullToRefreshLayout;
 import cn.horry.teaching_information_exchange.widget.PullableListView;
+import cn.smssdk.SMSSDK;
 
 public class SignInFragment extends BaseFragment {
 
@@ -51,7 +52,6 @@ public class SignInFragment extends BaseFragment {
        {
            refreshData();
        }
-
     }
 
     @Override
