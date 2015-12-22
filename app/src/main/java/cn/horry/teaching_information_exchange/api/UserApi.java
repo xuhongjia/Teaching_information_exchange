@@ -3,6 +3,7 @@ package cn.horry.teaching_information_exchange.api;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.Request;
 
+import cn.horry.teaching_information_exchange.entity.User;
 import cn.horry.teaching_information_exchange.utils.MyHttpParams;
 
 /**
@@ -17,6 +18,11 @@ public class UserApi extends API{
     public static void getCourse(int uId , int isTeacher ,int page, HttpCallBack httpCallBack){
         String url = URL.concat("action/user/getCourse");
         MyHttpParams params = new MyHttpParams("uId",uId,"isTeacher",isTeacher,"page",page);
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(true).request();
+    }
+    public static void register(User user,HttpCallBack httpCallBack){
+        String url = URL.concat("action/user/register");
+        MyHttpParams params = new MyHttpParams(user);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(true).request();
     }
 }
