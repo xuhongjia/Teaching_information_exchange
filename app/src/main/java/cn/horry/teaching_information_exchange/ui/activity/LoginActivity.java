@@ -75,6 +75,10 @@ public class LoginActivity extends BaseActivity  implements  OnClickListener{
     @BindView(id = R.id.isTeacher)
     private RadioGroup isTeacher;
     private int IsTeacher;
+    @BindView(id = R.id.teacher)
+    private RadioButton teacher;
+    @BindView(id = R.id.student)
+    private RadioButton student;
     @BindView(id = R.id.rootLayout)
     private View rootLayout;
     @BindView(id = R.id.sign_in_button , click = true)
@@ -95,7 +99,19 @@ public class LoginActivity extends BaseActivity  implements  OnClickListener{
      * 初始化控件
      */
     private void initWidget(){
-
+        if(UserManager.getInstance().getUser()!=null)
+        {
+            mAccount.setText(UserManager.getInstance().getUser().getAccount());
+            mPasswordView.setText(UserManager.getInstance().getUser().getPassword());
+            if(UserManager.getInstance().getUser().getIsTeacher()==1)
+            {
+                teacher.setChecked(true);
+            }
+            else
+            {
+                student.setChecked(true);
+            }
+        }
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {

@@ -37,7 +37,10 @@ public class ActivityManager {
     {
         activityList.remove(position);
     }
-
+    public void removeActivity(Activity activity)
+    {
+        activityList.remove(activity);
+    }
     public LinkedList<Activity> getActivityList() {
         return activityList;
     }

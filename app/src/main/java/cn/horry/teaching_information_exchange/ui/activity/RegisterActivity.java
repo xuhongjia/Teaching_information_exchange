@@ -29,6 +29,7 @@ import cn.horry.teaching_information_exchange.api.UserApi;
 import cn.horry.teaching_information_exchange.entity.GeneralResponse;
 import cn.horry.teaching_information_exchange.entity.User;
 import cn.horry.teaching_information_exchange.listener.MySmsListener;
+import cn.horry.teaching_information_exchange.ui.UserManager;
 import cn.horry.teaching_information_exchange.utils.MobSMS;
 import cn.horry.teaching_information_exchange.utils.TimeCount;
 import cn.smssdk.SMSSDK;
@@ -97,7 +98,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     public void PassVerification(){
-        User user = new User();
+        final User user = new User();
         user.setAccount(account.getText().toString().trim());
         user.setPassword(password.getText().toString().trim());
         user.setImg(API.DEFAULT_HEAD_IMG);
@@ -118,16 +119,16 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 super.onFailure(errorNo, strMsg);
 
             }
-
             @Override
             public void onSuccess(String t) {
                 super.onSuccess(t);
                 GeneralResponse<String> response = new Gson().fromJson(t, new TypeToken<GeneralResponse<String>>() {
                 }.getType());
                 if (response.isSuccess()) {
+                    UserManager.getInstance().setUser(user);
                     showProgress(false);
-                    showShortText("注册成功！");
-                    gotoMain();
+                    showShortText("注册成功，请重新登录！");
+                    startActivity(new Intent(RegisterActivity.this, MainActivity.class)); //不知道为什么跳转页面
                 } else {
                     showProgress(false);
                     showShortText(response.getMsg());
@@ -178,6 +179,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         if(validation_code.getText().toString().trim().length()!=4)
         {
             showShortText("请输入4位验证码！");
+            return false;
         }
         return true;
     }
@@ -213,13 +215,5 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             register_form.setVisibility(show ? View.GONE : View.VISIBLE);
         }
-    }
-
-    /**
-     * 跳转到主页
-     */
-    private void gotoMain(){
-        startActivity(new Intent(this,MainActivity.class));
-        finish();
     }
 }
