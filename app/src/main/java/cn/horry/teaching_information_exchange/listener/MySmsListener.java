@@ -1,24 +1,24 @@
 package cn.horry.teaching_information_exchange.listener;
 
-
 import android.os.Handler;
 
 import cn.horry.teaching_information_exchange.utils.MobSMS;
 
 /**
- * Created by Myy on 2015/12/18.
+ * Created by Administrator on 2015/12/17.
  */
 public class MySmsListener implements MobSMS.smsListener {
     private Handler handler;
     public MySmsListener(Handler handler){
-        this.handler=handler;
+        this.handler = handler;
     }
     @Override
     public void sendSMSSuccess(boolean isIntelligentVerification) {
-        if(isIntelligentVerification){
+        if(isIntelligentVerification)
+        {
             handler.sendEmptyMessage(-1);
-        }
-        else{
+        }else
+        {
             handler.sendEmptyMessage(1);
         }
     }
