@@ -98,7 +98,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     public void PassVerification(){
-        final User user = new User();
+        User user = new User();
         user.setAccount(account.getText().toString().trim());
         user.setPassword(password.getText().toString().trim());
         user.setImg(API.DEFAULT_HEAD_IMG);
@@ -122,13 +122,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onSuccess(String t) {
                 super.onSuccess(t);
-                GeneralResponse<String> response = new Gson().fromJson(t, new TypeToken<GeneralResponse<String>>() {
+                GeneralResponse<User> response = new Gson().fromJson(t, new TypeToken<GeneralResponse<String>>() {
                 }.getType());
                 if (response.isSuccess()) {
-                    UserManager.getInstance().setUser(user);
+                    UserManager.getInstance().setUser(response.getData());
                     showProgress(false);
                     showShortText("注册成功，请重新登录！");
-                    startActivity(new Intent(RegisterActivity.this, MainActivity.class)); //不知道为什么跳转页面
+                    startActivity(new Intent(RegisterActivity.this, MainActivity.class)); //无User用户
                 } else {
                     showProgress(false);
                     showShortText(response.getMsg());

@@ -13,7 +13,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityManager.getInstance().addActivity(this);
+       // ActivityManager.getInstance().addActivity(this);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ActivityManager.getInstance().removeActivity(this);
+        //ActivityManager.getInstance().removeActivity(this);
     }
 
     @Override
