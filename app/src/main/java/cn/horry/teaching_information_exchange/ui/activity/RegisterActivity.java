@@ -122,7 +122,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onSuccess(String t) {
                 super.onSuccess(t);
-                GeneralResponse<User> response = new Gson().fromJson(t, new TypeToken<GeneralResponse<String>>() {
+                GeneralResponse<User> response = new Gson().fromJson(t, new TypeToken<GeneralResponse<User>>() {
                 }.getType());
                 if (response.isSuccess()) {
                     UserManager.getInstance().setUser(response.getData());

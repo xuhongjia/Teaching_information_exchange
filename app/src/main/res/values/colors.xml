@@ -9,4 +9,5 @@
     <color name="radioCheckedTextColor">#F1F0EC</color>
     <color name="black">#000000</color>
     <color name="light_blue">#6593cb</color>
+    <color name="bg_gray">#efefef</color>
 </resources>
