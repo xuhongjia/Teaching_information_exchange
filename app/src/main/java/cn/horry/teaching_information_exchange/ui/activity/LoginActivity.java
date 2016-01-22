@@ -88,17 +88,19 @@ public class LoginActivity extends BaseActivity  implements  OnClickListener{
     @BindView(id = R.id.register , click = true)
     private TextView register;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void setRootView() {
         setContentView(R.layout.activity_login);
-        AnnotateUtil.initBindView(this);
-        initWidget();
+    }
+
+    @Override
+    public void initData() {
+
     }
 
     /**
      * 初始化控件
      */
-    private void initWidget(){
+    public void initWidget(){
         if(UserManager.getInstance().getUser()!=null)
         {
             mAccount.setText(UserManager.getInstance().getUser().getAccount());
@@ -201,6 +203,8 @@ public class LoginActivity extends BaseActivity  implements  OnClickListener{
                 @Override
                 public void onFailure(int errorNo, String strMsg) {
                     super.onFailure(errorNo, strMsg);
+                    showShortText("登录失败");
+                    showProgress(false);
                 }
             });
 

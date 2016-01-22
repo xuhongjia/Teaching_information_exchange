@@ -58,14 +58,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private TimeCount count;
     private MobSMS mobSMS;
     private Handler handler;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void setRootView() {
         setContentView(R.layout.activity_register);
-        AnnotateUtil.initBindView(this);
-        initData();
-        initWidget();
     }
+
     public void initData(){
         count = new TimeCount(60*1000,1000,send_validation);
         handler = new Handler(){

@@ -20,14 +20,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="0.28"
+            android:alpha="0.6"
             >
             <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/bg_head"
-            android:scaleType="centerCrop"
-            />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/bg_head"
+                android:scaleType="centerCrop"
+                />
         </RelativeLayout>
     </RelativeLayout>
     <LinearLayout
@@ -35,36 +35,83 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/bg_gray">
-        <TextView
+        <RelativeLayout
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="5dp"
-            android:text="昵称"
+            android:clickable="true"
             android:padding="5dp"
-            android:textSize="16sp"
-            android:drawableRight="@mipmap/youjiantou"
-            android:gravity="center_vertical"
-            android:background="@color/white"
-            />
-        <TextView
+            android:background="@drawable/my_info_item_selector"
+            >
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="昵称"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                />
+            <TextView
+                android:id="@+id/name_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:text="xxxx"
+                android:textSize="16sp"
+                android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/youjiantou"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/age"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="5dp"
-            android:text="性别"
+            android:clickable="true"
             android:padding="5dp"
-            android:textSize="16sp"
-            android:drawableRight="@mipmap/youjiantou"
-            android:gravity="center_vertical"
-            android:background="@color/white"/>
-        <TextView
+            android:background="@drawable/my_info_item_selector"
+            >
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="年龄"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                />
+            <TextView
+                android:id="@+id/age_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:text="100"
+                android:textSize="16sp"
+                android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/youjiantou"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/sex"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="5dp"
-            android:text="年龄"
+            android:clickable="true"
             android:padding="5dp"
-            android:textSize="16sp"
-            android:drawableRight="@mipmap/youjiantou"
-            android:gravity="center_vertical"
-            android:background="@color/white"/>
+            android:background="@drawable/my_info_item_selector"
+            >
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="性别"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                />
+            <TextView
+                android:id="@+id/sex_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:text="男"
+                android:textSize="16sp"
+                android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/youjiantou"/>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

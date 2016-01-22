@@ -1,5 +1,6 @@
 package cn.horry.teaching_information_exchange.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -30,7 +31,6 @@ import java.util.List;
 
 import cn.horry.teaching_information_exchange.R;
 import cn.horry.teaching_information_exchange.adapter.MyFragmentPagerAdapter;
-import cn.horry.teaching_information_exchange.entity.User;
 import cn.horry.teaching_information_exchange.ui.UserManager;
 import cn.horry.teaching_information_exchange.ui.fragment.BaseFragment;
 import cn.horry.teaching_information_exchange.ui.fragment.FeedBackFragment;
@@ -70,21 +70,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private int offset = 0;
     private int screenW;
     private int screenH;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void setRootView() {
         setContentView(R.layout.activity_main);
-        AnnotateUtil.initBindView(this);
-        InitWidth();
-        initData();
-        initWidget();
-        setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
     }
+
     /**
      * 初始化控件
      */
@@ -149,6 +140,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
             }
         });
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     /**
@@ -170,7 +167,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         myImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //去到我的设置页面
+                startActivity(new Intent(MainActivity.this,MyInforActivity.class));
             }
         });
     }
@@ -210,6 +207,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 初始化数据
      */
     public void initData(){
+        InitWidth();
         if(UserManager.getInstance().getUser().getIsTeacher()==1)
         {
             isTeacher = true;

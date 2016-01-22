@@ -6,21 +6,32 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 
+import org.kymjs.kjframe.ui.AnnotateUtil;
+
 import cn.horry.teaching_information_exchange.ui.ActivityManager;
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRootView();
+        AnnotateUtil.initBindView(this);
+        initData();
+        initWidget();
         ActivityManager.getInstance().addActivity(this);
     }
-
+    public abstract void setRootView();
+    public abstract void initData();
+    public abstract void initWidget();
     @Override
     protected void onResume() {
         super.onResume();
+        refreshData();
     }
+    public void refreshData(){
 
+    }
     @Override
     protected void onRestart() {
         super.onRestart();

@@ -10,9 +10,12 @@ import cn.horry.teaching_information_exchange.R;
 public class WelcomeActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void setRootView() {
         setContentView(R.layout.activity_welcome);
+    }
+
+    @Override
+    public void initData() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -20,6 +23,12 @@ public class WelcomeActivity extends BaseActivity {
             }
         },2000);
     }
+
+    @Override
+    public void initWidget() {
+
+    }
+
     private void gotoLogin(){
         Intent intent = new Intent(this,LoginActivity.class);
         startActivity(intent);

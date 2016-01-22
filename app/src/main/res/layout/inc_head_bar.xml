@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:drawableLeft="@mipmap/back"
+        android:drawableLeft="@drawable/back_selector"
+        android:clickable="true"
         android:visibility="gone"
         android:gravity="center"
         android:text="左边"/>
@@ -27,8 +28,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="右边"
-        android:visibility="gone"
+        android:layout_marginRight="10dp"
+        android:textSize="18sp"
+        android:textColor="@drawable/bar_text_color_selector"
         android:gravity="center"
+        android:visibility="gone"
+        android:clickable="true"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"/>
 </RelativeLayout>

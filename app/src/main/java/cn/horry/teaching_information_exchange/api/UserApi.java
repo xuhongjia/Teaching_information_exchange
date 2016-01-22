@@ -25,4 +25,9 @@ public class UserApi extends API{
         MyHttpParams params = new MyHttpParams(user);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(true).request();
     }
+    public static void update(User user,HttpCallBack httpCallBack){
+        String url = URL.concat("action/user/update");
+        MyHttpParams params = new MyHttpParams(user);
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(true).request();
+    }
 }
