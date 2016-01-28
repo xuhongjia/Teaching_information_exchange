@@ -1,6 +1,8 @@
 package cn.horry.teaching_information_exchange.entity;
 
-public class Course {
+import java.io.Serializable;
+
+public class Course implements Serializable{
 	private Integer id;
 	private String name;
 	private String content;//课程内容

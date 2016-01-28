@@ -43,4 +43,10 @@
     <string name="name">姓名</string>
     <string name="age">年龄</string>
     <string name="sex">性别</string>
+
+    <!--签到-->
+    <string name="course_name">课程名：</string>
+    <string name="course_content">内容：</string>
+    <string name="course_teacher">任课老师：</string>
+    <string name="location">位置：</string>
 </resources>

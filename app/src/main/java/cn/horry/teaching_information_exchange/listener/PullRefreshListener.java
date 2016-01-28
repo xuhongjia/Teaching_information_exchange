@@ -49,7 +49,6 @@ public abstract class PullRefreshListener<T> implements PullToRefreshLayout.OnRe
 		msg.what=100;
 		msg.obj = pullToRefreshLayout;
 		updataRefresh(adapter, data, msg,handler);
-
 	}
 
 	@Override

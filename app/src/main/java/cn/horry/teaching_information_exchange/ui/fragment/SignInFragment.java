@@ -1,6 +1,7 @@
 package cn.horry.teaching_information_exchange.ui.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import cn.horry.teaching_information_exchange.entity.Course;
 import cn.horry.teaching_information_exchange.entity.GeneralResponse;
 import cn.horry.teaching_information_exchange.listener.PullRefreshListener;
 import cn.horry.teaching_information_exchange.ui.UserManager;
+import cn.horry.teaching_information_exchange.ui.activity.SignInCourseActivity;
 import cn.horry.teaching_information_exchange.ui.fragment.BaseFragment;
 import cn.horry.teaching_information_exchange.widget.PullToRefreshLayout;
 import cn.horry.teaching_information_exchange.widget.PullableListView;
@@ -62,6 +64,11 @@ public class SignInFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Course course = (Course)((ViewHolder) view.getTag()).getView(R.id.course_name).getTag();
                 //跳转到详细界面
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Course",course);
+                Intent intent = new Intent(getmContext(), SignInCourseActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         sign_in_pull_to_refresh_layout.setOnRefreshListener(getPullRefreshListener());
