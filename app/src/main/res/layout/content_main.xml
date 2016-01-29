@@ -36,6 +36,7 @@
             android:gravity="center"
             android:drawableTop="@drawable/sign_in_radio_button_selector"
             android:background="@drawable/radio_button_selector"
+            android:paddingTop="2dp"
             android:button="@null"
             android:textColor="@drawable/radio_button_text_color_selector"
             android:text="签到"/>
@@ -44,6 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:paddingTop="2dp"
             android:drawableTop="@drawable/homework_radio_button_selector"
             android:background="@drawable/radio_button_selector"
             android:textColor="@drawable/radio_button_text_color_selector"
@@ -57,6 +59,7 @@
             android:background="@drawable/radio_button_selector"
             android:textColor="@drawable/radio_button_text_color_selector"
             android:button="@null"
+            android:paddingTop="2dp"
             android:drawableTop="@drawable/feedback_radio_button_selector"
             android:layout_height="match_parent"
             android:layout_weight="1"

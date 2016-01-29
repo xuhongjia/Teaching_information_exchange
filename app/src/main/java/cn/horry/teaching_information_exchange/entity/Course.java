@@ -8,6 +8,8 @@ public class Course implements Serializable{
 	private String content;//课程内容
 	private Integer tId;
 	private Long time;
+	private String t_name;
+    private int validation_state;
 	public Integer getId() {
 		return id;
 	}
@@ -38,5 +40,19 @@ public class Course implements Serializable{
 	public void setTime(Long time) {
 		this.time = time;
 	}
-	
+	public String getT_name() {
+		return t_name;
+	}
+
+	public void setT_name(String t_name) {
+		this.t_name = t_name;
+	}
+
+    public int getValidation_state() {
+        return validation_state;
+    }
+
+    public void setValidation_state(Integer validation_state) {
+        this.validation_state = validation_state;
+    }
 }

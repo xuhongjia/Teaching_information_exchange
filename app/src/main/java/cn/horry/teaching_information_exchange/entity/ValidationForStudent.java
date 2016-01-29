@@ -10,6 +10,7 @@ public class ValidationForStudent {
     private Double s_y;
     private Long validate_time;
     private Integer vId;
+    private Integer uId;
 
     public Integer getId() {
         return id;
@@ -57,5 +58,13 @@ public class ValidationForStudent {
 
     public void setvId(Integer vId) {
         this.vId = vId;
+    }
+
+    public Integer getuId() {
+        return uId;
+    }
+
+    public void setuId(Integer uId) {
+        this.uId = uId;
     }
 }

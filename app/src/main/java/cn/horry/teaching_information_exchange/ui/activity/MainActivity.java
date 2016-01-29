@@ -7,6 +7,8 @@ import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -235,24 +237,39 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        if(UserManager.getInstance().getUser().getIsTeacher()==1)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     /**
      * 右侧按钮点击事件，不需要
      * @param item
      * @return
      */
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (currIndex)
+        {
+            case 0://签到
+
+                break;
+            case 1://作业
+                break;
+            case 2://反馈信息
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
 
     /**
      * navigation的item点击事件

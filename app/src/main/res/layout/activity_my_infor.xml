@@ -113,5 +113,15 @@
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/youjiantou"/>
         </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:padding="5dp"
+            android:clickable="true"
+            android:background="@drawable/my_info_item_selector"
+            android:drawableRight="@mipmap/youjiantou"
+            android:text="我的课程"
+            android:gravity="center_vertical"
+            android:textSize="16sp"/>
     </LinearLayout>
 </LinearLayout>

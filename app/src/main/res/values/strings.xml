@@ -39,6 +39,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_add">add</string>
 
     <string name="name">姓名</string>
     <string name="age">年龄</string>
@@ -49,4 +50,7 @@
     <string name="course_content">内容：</string>
     <string name="course_teacher">任课老师：</string>
     <string name="location">位置：</string>
+    <string name="verification">验证码：</string>
+    <string name="verification_button">获取</string>
+    <string name="start">签到</string>
 </resources>

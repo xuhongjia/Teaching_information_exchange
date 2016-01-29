@@ -22,6 +22,7 @@ import java.util.List;
 import cn.horry.teaching_information_exchange.R;
 import cn.horry.teaching_information_exchange.adapter.CommonBaseAdapter;
 import cn.horry.teaching_information_exchange.adapter.ViewHolder;
+import cn.horry.teaching_information_exchange.api.CourseApi;
 import cn.horry.teaching_information_exchange.api.UserApi;
 import cn.horry.teaching_information_exchange.entity.Course;
 import cn.horry.teaching_information_exchange.entity.GeneralResponse;
@@ -128,28 +129,26 @@ public abstract class BaseFragment extends Fragment {
     public void refreshData(){
         int id = UserManager.getInstance().getUser().getId();
         int isTeacher = UserManager.getInstance().getUser().getIsTeacher();
-        UserApi.getCourse(id, isTeacher,fManager.getPage(), new HttpCallBack() {
+        CourseApi.getValidationCourse(id, isTeacher, fManager.getPage(), new HttpCallBack() {
             @Override
             public void onSuccess(String t) {
                 super.onSuccess(t);
                 GeneralResponse<List<Course>> response = new Gson().fromJson(t, new TypeToken<GeneralResponse<List<Course>>>() {
                 }.getType());
                 if (response.isSuccess()) {
-                    if(fManager.getPage()==0) {
+                    if (fManager.getPage() == 0) {
                         fManager.setData(response.getData());
                         fManager.getAdapter().setMdatas(fManager.getData());
                         fManager.getAdapter().notifyDataSetChanged();
-                    }else if(response.getData().size()!=0)
-                    {
+                    } else if (response.getData().size() != 0) {
                         fManager.getData().addAll(response.getData());
                         fManager.getAdapter().notifyDataSetChanged();
-                    }
-                    else
-                    {
-                        fManager.setPage(fManager.getPage()-1);
+                    } else {
+                        fManager.setPage(fManager.getPage() - 1);
                     }
                 }
             }
+
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 super.onFailure(errorNo, strMsg);

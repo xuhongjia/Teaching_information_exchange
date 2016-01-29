@@ -7,6 +7,7 @@ public class Validation {
 	private Double t_y;
 	private Long validate_time;
 	private Integer cId;
+	private Integer state;
 	public Integer getId() {
 		return id;
 	}
@@ -42,5 +43,13 @@ public class Validation {
 	}
 	public void setcId(Integer cId) {
 		this.cId = cId;
+	}
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
 	}
 }
