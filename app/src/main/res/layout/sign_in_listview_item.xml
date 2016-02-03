@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
+        android:drawableLeft="@mipmap/course"
+        android:drawablePadding="5dp"
         android:gravity="center_vertical"
         android:textColor="@color/gray"
         android:text="asdasdasd"

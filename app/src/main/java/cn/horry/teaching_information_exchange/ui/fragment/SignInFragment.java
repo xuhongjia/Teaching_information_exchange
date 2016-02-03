@@ -29,6 +29,7 @@ import cn.horry.teaching_information_exchange.entity.GeneralResponse;
 import cn.horry.teaching_information_exchange.listener.PullRefreshListener;
 import cn.horry.teaching_information_exchange.ui.UserManager;
 import cn.horry.teaching_information_exchange.ui.activity.SignInCourseActivity;
+import cn.horry.teaching_information_exchange.ui.activity.SignInCourseTeacherActivity;
 import cn.horry.teaching_information_exchange.ui.fragment.BaseFragment;
 import cn.horry.teaching_information_exchange.widget.PullToRefreshLayout;
 import cn.horry.teaching_information_exchange.widget.PullableListView;
@@ -62,11 +63,16 @@ public class SignInFragment extends BaseFragment {
         sign_in_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Course course = (Course)((ViewHolder) view.getTag()).getView(R.id.course_name).getTag();
+                Course course = (Course) ((ViewHolder) view.getTag()).getView(R.id.course_name).getTag();
                 //跳转到详细界面
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("Course",course);
-                Intent intent = new Intent(getmContext(), SignInCourseActivity.class);
+                bundle.putSerializable("Course", course);
+                Intent intent;
+                if (UserManager.getInstance().getUser().getIsTeacher() == 1) {
+                    intent = new Intent(getmContext(), SignInCourseTeacherActivity.class);
+                } else {
+                    intent = new Intent(getmContext(), SignInCourseActivity.class);
+                }
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

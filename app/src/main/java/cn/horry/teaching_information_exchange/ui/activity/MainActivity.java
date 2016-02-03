@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private int offset = 0;
     private int screenW;
     private int screenH;
-
+    private Menu toolBarMenu;
     @Override
     public void setRootView() {
         setContentView(R.layout.activity_main);
@@ -101,12 +101,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 {
                     case 0:
                         sign_in.setChecked(true);
+                        if(isTeacher)
+                        {
+                            getMenuInflater().inflate(R.menu.main_menu, toolBarMenu);
+                        }
                         break;
                     case 1:
                         homework.setChecked(true);
+                        if(isTeacher)
+                        {
+                            getMenuInflater().inflate(R.menu.main_menu, toolBarMenu);
+                        }
                         break;
                     case 2:
                         feedback.setChecked(true);
+                        if(isTeacher)
+                        {
+                            toolbar.getMenu().clear();
+                        }
                         break;
                     default:
                         break;
@@ -240,11 +252,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        if(UserManager.getInstance().getUser().getIsTeacher()==1)
+        toolBarMenu = menu;
+        if(isTeacher)
         {
             return true;
         }
-        else{
+        else
+        {
             return false;
         }
     }
@@ -259,11 +273,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         switch (currIndex)
         {
             case 0://签到
-
+                startActivity(new Intent(this,SelectCourseActivity.class));
                 break;
             case 1://作业
+                startActivity(new Intent(this,SelectCourseActivity.class));
                 break;
             case 2://反馈信息
+                startActivity(new Intent(this,SelectCourseActivity.class));
                 break;
             default:
                 break;

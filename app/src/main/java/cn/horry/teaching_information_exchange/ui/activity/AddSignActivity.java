@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
-import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 
 import org.kymjs.kjframe.ui.BindView;
@@ -14,8 +13,7 @@ import org.kymjs.kjframe.ui.BindView;
 import cn.horry.teaching_information_exchange.R;
 import cn.horry.teaching_information_exchange.entity.Course;
 
-public class SignInCourseActivity extends BaseActivity implements View.OnClickListener {
-
+public class AddSignActivity extends BaseActivity implements View.OnClickListener {
     @BindView(id = R.id.left ,click = true)
     private TextView left;
     @BindView(id = R.id.title)
@@ -28,8 +26,6 @@ public class SignInCourseActivity extends BaseActivity implements View.OnClickLi
     private View show_more;
     @BindView(id = R.id.show_more_text)
     private TextView show_more_text;
-    @BindView(id = R.id.teacher_name)
-    private TextView teacher_name;
     @BindView(id = R.id.location_icon , click = true)
     private View location_icon;
     @BindView(id = R.id.location)
@@ -44,7 +40,6 @@ public class SignInCourseActivity extends BaseActivity implements View.OnClickLi
     private View validation;
     @BindView(id = R.id.location_progress)
     private View location_progress;
-    private Course course;
     private static final int VIDEO_CONTENT_DESC_MAX_LINE = 4;// 默认展示最大行数3行
     private static final int SHOW_CONTENT_NONE_STATE = 0;// 扩充
     private static final int SHRINK_UP_STATE = 1;// 收起状态
@@ -52,10 +47,12 @@ public class SignInCourseActivity extends BaseActivity implements View.OnClickLi
     private static int mState = SHRINK_UP_STATE;
     private Drawable up;
     private Drawable down;
+    private Course course;
     @Override
     public void setRootView() {
-        setContentView(R.layout.activity_sign_in_course);
+        setContentView(R.layout.activity_add_sign);
     }
+
     @Override
     public void initData() {
         course = (Course)getIntent().getSerializableExtra("Course");
@@ -63,24 +60,15 @@ public class SignInCourseActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void initWidget() {
-        title.setText("签到");
+        title.setText("添加签到信息");
+        left.setVisibility(View.VISIBLE);
+        left.setText("");
         course_title.setText(course.getName());
         content.setText(course.getContent());
-        teacher_name.setText(course.getT_name());
         up = getResources().getDrawable(R.mipmap.detail_up);
         up.setBounds(0,0,up.getMinimumWidth(),up.getMinimumHeight());
         down = getResources().getDrawable(R.mipmap.detail_down);
-        down.setBounds(0, 0, down.getMinimumWidth(), down.getMinimumHeight());
-        left.setVisibility(View.VISIBLE);
-        left.setText("");
-        if(course.getValidation_state()>0)
-        {
-            showVaildation(false);
-        }
-        else
-        {
-            showVaildation(true);
-        }
+        down.setBounds(0,0,down.getMinimumWidth(),down.getMinimumHeight());
     }
 
     @Override
@@ -105,41 +93,45 @@ public class SignInCourseActivity extends BaseActivity implements View.OnClickLi
                     mState = SPREAD_STATE;
                 }
                 break;
-            case R.id.location_icon://获取位置
-                break;
-            case R.id.start_verify://提交
+            case R.id.location:
+                location_icon.setVisibility(View.GONE);
+                location_progress.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;
         }
     }
 
-    private void showVaildation(final boolean isValidated){
+    /**
+     * 重新获取地址的progress
+     * @param location
+     */
+    private void showLocationIcon(final boolean location){
         // 大于等于sdk 13的
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            validated.setVisibility(isValidated ? View.GONE : View.VISIBLE);
-            validated.animate().setDuration(shortAnimTime).alpha(
-                    isValidated ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            location_progress.setVisibility(location ? View.GONE : View.VISIBLE);
+            location_progress.animate().setDuration(shortAnimTime).alpha(
+                    location ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    validated.setVisibility(isValidated ? View.GONE : View.VISIBLE);
+                    validated.setVisibility(location ? View.GONE : View.VISIBLE);
                 }
             });
 
-            validation.setVisibility(isValidated ? View.VISIBLE : View.GONE);
-            validation.animate().setDuration(shortAnimTime).alpha(
-                    isValidated ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            location_icon.setVisibility(location ? View.VISIBLE : View.GONE);
+            location_icon.animate().setDuration(shortAnimTime).alpha(
+                    location ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    validation.setVisibility(isValidated ? View.VISIBLE : View.GONE);
+                    validation.setVisibility(location ? View.VISIBLE : View.GONE);
                 }
             });
         } else {
             //不同sdk的设置
-            validation.setVisibility(isValidated ? View.VISIBLE : View.GONE);
-            validated.setVisibility(isValidated ? View.GONE : View.VISIBLE);
+            location_icon.setVisibility(location ? View.VISIBLE : View.GONE);
+            location_progress.setVisibility(location ? View.GONE : View.VISIBLE);
         }
     }
 }

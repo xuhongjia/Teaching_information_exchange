@@ -53,7 +53,10 @@
         <activity android:name=".ui.activity.RegisterActivity" />
         <activity android:name=".ui.activity.MyInforActivity" />
         <activity android:name=".ui.activity.MyInfoItem" />
-        <activity android:name=".ui.activity.SignInCourseActivity"></activity>
+        <activity android:name=".ui.activity.SignInCourseActivity" />
+        <activity android:name=".ui.activity.AddSignActivity" />
+        <activity android:name=".ui.activity.SelectCourseActivity" />
+        <activity android:name=".ui.activity.SignInCourseTeacherActivity"></activity>
     </application>
 
 </manifest>
