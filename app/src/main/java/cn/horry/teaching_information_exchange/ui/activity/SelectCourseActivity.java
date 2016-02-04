@@ -78,6 +78,7 @@ public class SelectCourseActivity extends BaseActivity implements View.OnClickLi
                 Intent intent = new Intent(SelectCourseActivity.this, AddSignActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                finish();
             }
         });
     }

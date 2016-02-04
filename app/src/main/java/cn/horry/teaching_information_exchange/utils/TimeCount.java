@@ -15,7 +15,7 @@ public class TimeCount extends CountDownTimer {
     }
     @Override
     public void onFinish() {//计时完毕时触发
-        ((Button) view).setText("重新验证");
+        ((Button) view).setText("重新获取");
         view.setEnabled(true);
     }
 

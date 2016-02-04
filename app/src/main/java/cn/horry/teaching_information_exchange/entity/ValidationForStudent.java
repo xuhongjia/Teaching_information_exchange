@@ -11,7 +11,7 @@ public class ValidationForStudent {
     private Long validate_time;
     private Integer vId;
     private Integer uId;
-
+    private Integer state;
     public Integer getId() {
         return id;
     }
@@ -66,5 +66,13 @@ public class ValidationForStudent {
 
     public void setuId(Integer uId) {
         this.uId = uId;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }

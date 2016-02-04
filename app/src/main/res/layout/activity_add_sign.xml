@@ -101,7 +101,6 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/location"
                     android:editable="false"
-                    android:clickable="false"
                     />
             </android.support.design.widget.TextInputLayout>
             <TextView
@@ -112,7 +111,6 @@
                 android:drawableRight="@mipmap/location"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="2dp"
-
                 />
             <ProgressBar
                 android:id="@+id/location_progress"
@@ -130,18 +128,33 @@
                 />
         </RelativeLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:clickable="false">
-            <AutoCompleteTextView
-                android:id="@+id/verification_code"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/verification"
+                android:orientation="horizontal"
+                android:layout_toLeftOf="@+id/create_validation"
+                android:clickable="false">
+                <AutoCompleteTextView
+                    android:id="@+id/verification_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/verification"
+                    />
+            </android.support.design.widget.TextInputLayout>
+            <Button
+                android:id="@+id/create_validation"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="@color/white"
+                android:layout_marginTop="5dp"
+                android:text="生成验证码"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/button_background_selector"
                 />
-        </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
         <Button
             android:id="@+id/start_verify"
             android:layout_width="match_parent"

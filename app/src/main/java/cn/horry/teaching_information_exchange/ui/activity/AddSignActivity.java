@@ -2,16 +2,26 @@ package cn.horry.teaching_information_exchange.ui.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+
+import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.ui.BindView;
 
+import java.util.Random;
+
 import cn.horry.teaching_information_exchange.R;
+import cn.horry.teaching_information_exchange.api.ValidationApi;
 import cn.horry.teaching_information_exchange.entity.Course;
+import cn.horry.teaching_information_exchange.entity.Validation;
+import cn.horry.teaching_information_exchange.utils.GDMap;
+import cn.horry.teaching_information_exchange.utils.TimeCount;
 
 public class AddSignActivity extends BaseActivity implements View.OnClickListener {
     @BindView(id = R.id.left ,click = true)
@@ -40,6 +50,8 @@ public class AddSignActivity extends BaseActivity implements View.OnClickListene
     private View validation;
     @BindView(id = R.id.location_progress)
     private View location_progress;
+    @BindView(id = R.id.create_validation , click = true)
+    private View create_validation;
     private static final int VIDEO_CONTENT_DESC_MAX_LINE = 4;// 默认展示最大行数3行
     private static final int SHOW_CONTENT_NONE_STATE = 0;// 扩充
     private static final int SHRINK_UP_STATE = 1;// 收起状态
@@ -48,6 +60,9 @@ public class AddSignActivity extends BaseActivity implements View.OnClickListene
     private Drawable up;
     private Drawable down;
     private Course course;
+    private GDMap gdMap;
+    private Double Tx;
+    private Double Ty;
     @Override
     public void setRootView() {
         setContentView(R.layout.activity_add_sign);
@@ -56,6 +71,22 @@ public class AddSignActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void initData() {
         course = (Course)getIntent().getSerializableExtra("Course");
+        gdMap = GDMap.getInstance(this);
+        gdMap.setLoactionListener(new GDMap.LocationListener() {
+            @Override
+            public void getAddressString(String address) {
+                location.setText(address.trim());
+                location.setTextColor(Color.BLACK);
+                location_icon.setVisibility(View.VISIBLE);
+                location_progress.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void getAMapLocation(AMapLocation aMapLocation) {
+                Tx = aMapLocation.getLatitude();
+                Ty = aMapLocation.getLongitude();
+            }
+        });
     }
 
     @Override
@@ -68,7 +99,8 @@ public class AddSignActivity extends BaseActivity implements View.OnClickListene
         up = getResources().getDrawable(R.mipmap.detail_up);
         up.setBounds(0,0,up.getMinimumWidth(),up.getMinimumHeight());
         down = getResources().getDrawable(R.mipmap.detail_down);
-        down.setBounds(0,0,down.getMinimumWidth(),down.getMinimumHeight());
+        down.setBounds(0, 0, down.getMinimumWidth(), down.getMinimumHeight());
+        gdMap.startLoction();
     }
 
     @Override
@@ -93,45 +125,67 @@ public class AddSignActivity extends BaseActivity implements View.OnClickListene
                     mState = SPREAD_STATE;
                 }
                 break;
-            case R.id.location:
+            case R.id.location_icon:
                 location_icon.setVisibility(View.GONE);
                 location_progress.setVisibility(View.VISIBLE);
+                location.setText("正在获取地址...");
+                location.setTextColor(Color.GRAY);
+                gdMap.startLoction();
+                break;
+            case R.id.create_validation:
+                verification_code.setText(getValidation());
+                break;
+            case R.id.start_verify:
+                addValidation();
                 break;
             default:
                 break;
         }
     }
 
-    /**
-     * 重新获取地址的progress
-     * @param location
-     */
-    private void showLocationIcon(final boolean location){
-        // 大于等于sdk 13的
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            location_progress.setVisibility(location ? View.GONE : View.VISIBLE);
-            location_progress.animate().setDuration(shortAnimTime).alpha(
-                    location ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+    private void addValidation(){
+        if(check())
+        {
+            Validation validation = new Validation();
+            validation.setCode(verification_code.getText().toString().trim());
+            validation.setState(0);
+            validation.setcId(course.getId());
+            validation.setValidate_time(System.currentTimeMillis());
+            validation.setT_x(Tx);
+            validation.setT_y(Ty);
+            ValidationApi.addValidation(validation, new HttpCallBack() {
                 @Override
-                public void onAnimationEnd(Animator animation) {
-                    validated.setVisibility(location ? View.GONE : View.VISIBLE);
+                public void onSuccess(String t) {
+                    super.onSuccess(t);
+                    finish();
+                }
+
+                @Override
+                public void onFailure(int errorNo, String strMsg) {
+                    super.onFailure(errorNo, strMsg);
+
                 }
             });
-
-            location_icon.setVisibility(location ? View.VISIBLE : View.GONE);
-            location_icon.animate().setDuration(shortAnimTime).alpha(
-                    location ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    validation.setVisibility(location ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            //不同sdk的设置
-            location_icon.setVisibility(location ? View.VISIBLE : View.GONE);
-            location_progress.setVisibility(location ? View.GONE : View.VISIBLE);
         }
+    }
+    private boolean check(){
+        if(verification_code.getText().toString().trim().equals(""))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public String getValidation(){
+        int x;//定义两变量
+        Random ne=new Random();//实例化一个random的对象ne
+        x=ne.nextInt(9999-1000+1)+1000;//为变量赋随机值1000-9999
+        return x+"";
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gdMap.stopLoction();
     }
 }

@@ -57,6 +57,7 @@
         <activity android:name=".ui.activity.AddSignActivity" />
         <activity android:name=".ui.activity.SelectCourseActivity" />
         <activity android:name=".ui.activity.SignInCourseTeacherActivity"></activity>
+        <service android:name="com.amap.api.location.APSService"></service>
     </application>
 
 </manifest>

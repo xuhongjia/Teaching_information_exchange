@@ -12,6 +12,7 @@
         android:layout_centerVertical="true"
         android:drawableLeft="@drawable/back_selector"
         android:clickable="true"
+        android:layout_marginLeft="5dp"
         android:visibility="gone"
         android:gravity="center"
         android:text="左边"/>
