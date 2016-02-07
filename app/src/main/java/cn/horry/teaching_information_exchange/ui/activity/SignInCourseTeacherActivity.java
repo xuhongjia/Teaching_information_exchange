@@ -2,11 +2,16 @@ package cn.horry.teaching_information_exchange.ui.activity;
 
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.ui.BindView;
@@ -14,9 +19,13 @@ import org.kymjs.kjframe.ui.BindView;
 import java.text.SimpleDateFormat;
 
 import cn.horry.teaching_information_exchange.R;
+import cn.horry.teaching_information_exchange.adapter.SignInStudentsAdapter;
+import cn.horry.teaching_information_exchange.api.CourseApi;
 import cn.horry.teaching_information_exchange.api.ValidationApi;
+import cn.horry.teaching_information_exchange.entity.AllValidationStudents;
 import cn.horry.teaching_information_exchange.entity.Course;
 import cn.horry.teaching_information_exchange.entity.CourseValidationForTeacher;
+import cn.horry.teaching_information_exchange.entity.GeneralResponse;
 import cn.horry.teaching_information_exchange.widget.SignInDialog;
 
 public class SignInCourseTeacherActivity extends BaseActivity implements View.OnClickListener{
@@ -49,6 +58,19 @@ public class SignInCourseTeacherActivity extends BaseActivity implements View.On
     private Drawable down;
     private CourseValidationForTeacher course;
     private SignInDialog.Builder builder;
+    private AllValidationStudents allValidationStudents=new AllValidationStudents();
+    private SignInStudentsAdapter signInStudentsAdapter;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==2000)
+            {
+                students_sign_in_all.setText(allValidationStudents.getDatas().size()+"/"+allValidationStudents.getCount());
+                signInStudentsAdapter.setMdatas(allValidationStudents.getDatas());
+                signInStudentsAdapter.notifyDataSetChanged();
+            }
+        }
+    };
     @Override
     public void setRootView() {
         setContentView(R.layout.activity_sign_in_course_teacher);
@@ -57,6 +79,23 @@ public class SignInCourseTeacherActivity extends BaseActivity implements View.On
     @Override
     public void initData() {
         course = (CourseValidationForTeacher)getIntent().getSerializableExtra("Course");
+        CourseApi.getAllValidationStudents(course.getvId(), course.getId(), new HttpCallBack() {
+            @Override
+            public void onSuccess(String t) {
+                GeneralResponse<AllValidationStudents> response = new Gson().fromJson(t,new TypeToken<GeneralResponse<AllValidationStudents>>(){}.getType());
+                if(response.isSuccess())
+                {
+                    allValidationStudents=response.getData();
+                    handler.sendEmptyMessage(2000);
+                }
+            }
+
+            @Override
+            public void onFailure(int errorNo, String strMsg) {
+                super.onFailure(errorNo, strMsg);
+            }
+        });
+        signInStudentsAdapter = new SignInStudentsAdapter(this,allValidationStudents.getDatas(),R.layout.sign_in_course_listview_item);
     }
 
     @Override

@@ -12,6 +12,8 @@ public class ValidationForStudent {
     private Integer vId;
     private Integer uId;
     private Integer state;
+    private String name;
+    private String img;
     public Integer getId() {
         return id;
     }
@@ -74,5 +76,21 @@ public class ValidationForStudent {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

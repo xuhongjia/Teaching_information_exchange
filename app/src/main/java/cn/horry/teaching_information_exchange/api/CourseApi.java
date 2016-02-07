@@ -1,6 +1,7 @@
 package cn.horry.teaching_information_exchange.api;
 
 import org.kymjs.kjframe.http.HttpCallBack;
+import org.kymjs.kjframe.http.HttpParams;
 import org.kymjs.kjframe.http.Request;
 
 import cn.horry.teaching_information_exchange.utils.MyHttpParams;
@@ -13,5 +14,11 @@ public class CourseApi extends API {
         String url = URL.concat("action/course/getValidationCourse");
         MyHttpParams params = new MyHttpParams("uId",uId,"isTeacher",isTeacher,"page",page);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
+    }
+    public static void  getAllValidationStudents(int vId,int cId,HttpCallBack httpCallBack)
+    {
+        String url = URL.concat("action/course/getAllValidationStudents");
+        HttpParams params =new MyHttpParams("vId",vId,"cId",cId);
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(true).request();
     }
 }
