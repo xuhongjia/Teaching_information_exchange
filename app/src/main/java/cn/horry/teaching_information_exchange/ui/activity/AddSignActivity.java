@@ -8,6 +8,7 @@ import android.os.Build;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 
@@ -20,6 +21,7 @@ import cn.horry.teaching_information_exchange.R;
 import cn.horry.teaching_information_exchange.api.ValidationApi;
 import cn.horry.teaching_information_exchange.entity.Course;
 import cn.horry.teaching_information_exchange.entity.Validation;
+import cn.horry.teaching_information_exchange.ui.UserManager;
 import cn.horry.teaching_information_exchange.utils.GDMap;
 import cn.horry.teaching_information_exchange.utils.TimeCount;
 
@@ -153,11 +155,13 @@ public class AddSignActivity extends BaseActivity implements View.OnClickListene
             validation.setValidate_time(System.currentTimeMillis());
             validation.setT_x(Tx);
             validation.setT_y(Ty);
+            validation.setuId(UserManager.getInstance().getUser().getId());
             ValidationApi.addValidation(validation, new HttpCallBack() {
                 @Override
                 public void onSuccess(String t) {
                     super.onSuccess(t);
                     finish();
+                    Toast.makeText(AddSignActivity.this,"添加成功",Toast.LENGTH_SHORT).show();
                 }
 
                 @Override

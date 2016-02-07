@@ -25,6 +25,7 @@ import cn.horry.teaching_information_exchange.adapter.CommonBaseAdapter;
 import cn.horry.teaching_information_exchange.adapter.ViewHolder;
 import cn.horry.teaching_information_exchange.api.UserApi;
 import cn.horry.teaching_information_exchange.entity.Course;
+import cn.horry.teaching_information_exchange.entity.CourseValidationForTeacher;
 import cn.horry.teaching_information_exchange.entity.GeneralResponse;
 import cn.horry.teaching_information_exchange.listener.PullRefreshListener;
 import cn.horry.teaching_information_exchange.ui.UserManager;
@@ -63,7 +64,7 @@ public class SignInFragment extends BaseFragment {
         sign_in_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Course course = (Course) ((ViewHolder) view.getTag()).getView(R.id.course_name).getTag();
+                CourseValidationForTeacher course = (CourseValidationForTeacher) ((ViewHolder) view.getTag()).getView(R.id.course_name).getTag();
                 //跳转到详细界面
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Course", course);

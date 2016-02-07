@@ -11,4 +11,5 @@
     <color name="light_blue">#6593cb</color>
     <color name="bg_gray">#efefef</color>
     <color name="gray_press">#bbbbbb</color>
+    <color name="button_press">#93aa8D</color>
 </resources>

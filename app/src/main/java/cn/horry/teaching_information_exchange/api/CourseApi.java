@@ -12,6 +12,6 @@ public class CourseApi extends API {
     public static void getValidationCourse(int uId , int isTeacher ,int page, HttpCallBack httpCallBack){
         String url = URL.concat("action/course/getValidationCourse");
         MyHttpParams params = new MyHttpParams("uId",uId,"isTeacher",isTeacher,"page",page);
-        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(true).request();
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
     }
 }

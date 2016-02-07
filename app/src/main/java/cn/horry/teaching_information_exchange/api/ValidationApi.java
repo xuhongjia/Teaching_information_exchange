@@ -14,6 +14,11 @@ public class ValidationApi extends API {
     public static void addValidation(Validation validation ,HttpCallBack httpCallBack){
         String url = URL.concat("action/validation/addValidation");
         HttpParams params = new MyHttpParams(validation);
-        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).callback(httpCallBack).useCache(true).params(params).request();
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).callback(httpCallBack).useCache(false).params(params).request();
+    }
+    public static void updateValidationState(int state,int id,HttpCallBack httpCallBack){
+        String url = URL.concat("action/validation/updateValidationState");
+        HttpParams params = new MyHttpParams("id",id,"state",state);
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
     }
 }

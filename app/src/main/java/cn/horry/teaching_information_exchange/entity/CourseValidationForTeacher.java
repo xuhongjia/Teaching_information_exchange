@@ -1,20 +1,12 @@
 package cn.horry.teaching_information_exchange.entity;
 
-public class Validation {
-	private Integer id;
+public class CourseValidationForTeacher extends Course {
 	private String code;
 	private Double t_x;
 	private Double t_y;
 	private Long validate_time;
-	private Integer cId;
 	private Integer state;
-	private Integer uId;
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	private Integer vId;
 	public String getCode() {
 		return code;
 	}
@@ -39,26 +31,18 @@ public class Validation {
 	public void setValidate_time(Long validate_time) {
 		this.validate_time = validate_time;
 	}
-	public Integer getcId() {
-		return cId;
-	}
-	public void setcId(Integer cId) {
-		this.cId = cId;
-	}
-
 	public Integer getState() {
 		return state;
 	}
-
 	public void setState(Integer state) {
 		this.state = state;
 	}
 
-    public Integer getuId() {
-        return uId;
+    public Integer getvId() {
+        return vId;
     }
 
-    public void setuId(Integer uId) {
-        this.uId = uId;
+    public void setvId(Integer vId) {
+        this.vId = vId;
     }
 }
