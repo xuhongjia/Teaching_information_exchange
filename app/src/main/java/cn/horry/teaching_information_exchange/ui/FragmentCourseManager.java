@@ -9,16 +9,15 @@ import java.util.List;
 import cn.horry.teaching_information_exchange.R;
 import cn.horry.teaching_information_exchange.adapter.CommonBaseAdapter;
 import cn.horry.teaching_information_exchange.adapter.ViewHolder;
-import cn.horry.teaching_information_exchange.entity.Course;
-import cn.horry.teaching_information_exchange.entity.CourseValidationForTeacher;
+import cn.horry.teaching_information_exchange.entity.CourseValidation;
 
 /**
  * Created by Administrator on 2015/12/17.
  */
 public class FragmentCourseManager {
     private static FragmentCourseManager _FragmentCourseManager;
-    private CommonBaseAdapter<CourseValidationForTeacher> adapter;
-    private List<CourseValidationForTeacher> data = new ArrayList<>();
+    private CommonBaseAdapter<CourseValidation> adapter;
+    private List<CourseValidation> data = new ArrayList<>();
     private int page;
     private Context context;
     private FragmentCourseManager(Context context) {
@@ -34,9 +33,9 @@ public class FragmentCourseManager {
         return _FragmentCourseManager;
     }
     public void initData(){
-        adapter = new CommonBaseAdapter<CourseValidationForTeacher>(context,data, R.layout.sign_in_listview_item) {
+        adapter = new CommonBaseAdapter<CourseValidation>(context,data, R.layout.sign_in_listview_item) {
             @Override
-            public void convert(ViewHolder holder, CourseValidationForTeacher course) {
+            public void convert(ViewHolder holder, CourseValidation course) {
                 TextView course_name = holder.getView(R.id.course_name);
                 course_name.setText(course.getName());
                 course_name.setTag(course);
@@ -44,19 +43,19 @@ public class FragmentCourseManager {
         };
     }
 
-    public List<CourseValidationForTeacher> getData() {
+    public List<CourseValidation> getData() {
         return data;
     }
 
-    public void setData(List<CourseValidationForTeacher> data) {
+    public void setData(List<CourseValidation> data) {
         this.data = data;
     }
 
-    public CommonBaseAdapter<CourseValidationForTeacher> getAdapter() {
+    public CommonBaseAdapter<CourseValidation> getAdapter() {
         return adapter;
     }
 
-    public void setAdapter(CommonBaseAdapter<CourseValidationForTeacher> adapter) {
+    public void setAdapter(CommonBaseAdapter<CourseValidation> adapter) {
         this.adapter = adapter;
     }
 

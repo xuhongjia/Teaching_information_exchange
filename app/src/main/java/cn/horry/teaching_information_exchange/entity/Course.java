@@ -9,7 +9,7 @@ public class Course implements Serializable{
 	private Integer tId;
 	private Long time;
 	private String t_name;
-    private int validation_state;
+
 	public Integer getId() {
 		return id;
 	}
@@ -48,11 +48,4 @@ public class Course implements Serializable{
 		this.t_name = t_name;
 	}
 
-    public int getValidation_state() {
-        return validation_state;
-    }
-
-    public void setValidation_state(Integer validation_state) {
-        this.validation_state = validation_state;
-    }
 }

@@ -161,7 +161,7 @@ public class AddSignActivity extends BaseActivity implements View.OnClickListene
                 public void onSuccess(String t) {
                     super.onSuccess(t);
                     finish();
-                    Toast.makeText(AddSignActivity.this,"添加成功",Toast.LENGTH_SHORT).show();
+                    showShortText("添加成功");
                 }
 
                 @Override

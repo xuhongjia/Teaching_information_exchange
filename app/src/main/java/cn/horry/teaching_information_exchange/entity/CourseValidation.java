@@ -1,12 +1,13 @@
 package cn.horry.teaching_information_exchange.entity;
 
-public class CourseValidationForTeacher extends Course {
+public class CourseValidation extends Course {
 	private String code;
 	private Double t_x;
 	private Double t_y;
 	private Long validate_time;
 	private Integer state;
 	private Integer vId;
+	private int validation_state;
 	public String getCode() {
 		return code;
 	}
@@ -44,5 +45,13 @@ public class CourseValidationForTeacher extends Course {
 
     public void setvId(Integer vId) {
         this.vId = vId;
+    }
+
+    public int getValidation_state() {
+        return validation_state;
+    }
+
+    public void setValidation_state(Integer validation_state) {
+        this.validation_state = validation_state;
     }
 }

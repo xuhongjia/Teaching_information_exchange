@@ -5,6 +5,7 @@ import org.kymjs.kjframe.http.HttpParams;
 import org.kymjs.kjframe.http.Request;
 
 import cn.horry.teaching_information_exchange.entity.Validation;
+import cn.horry.teaching_information_exchange.entity.ValidationForStudent;
 import cn.horry.teaching_information_exchange.utils.MyHttpParams;
 
 /**
@@ -19,6 +20,11 @@ public class ValidationApi extends API {
     public static void updateValidationState(int state,int id,HttpCallBack httpCallBack){
         String url = URL.concat("action/validation/updateValidationState");
         HttpParams params = new MyHttpParams("id",id,"state",state);
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
+    }
+    public static void addValidationForStudent(ValidationForStudent validationForStudent,HttpCallBack httpCallBack){
+        String url = URL.concat("action/validation/addValidationForStudent");
+        HttpParams params = new MyHttpParams(validationForStudent);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
     }
 }

@@ -19,8 +19,7 @@ import java.util.List;
 
 import cn.horry.teaching_information_exchange.adapter.CommonBaseAdapter;
 import cn.horry.teaching_information_exchange.api.CourseApi;
-import cn.horry.teaching_information_exchange.entity.Course;
-import cn.horry.teaching_information_exchange.entity.CourseValidationForTeacher;
+import cn.horry.teaching_information_exchange.entity.CourseValidation;
 import cn.horry.teaching_information_exchange.entity.GeneralResponse;
 import cn.horry.teaching_information_exchange.listener.PullRefreshListener;
 import cn.horry.teaching_information_exchange.ui.FragmentCourseManager;
@@ -34,7 +33,7 @@ public abstract class BaseFragment extends Fragment {
     private BaseActivity mContext = null;
     private View rootView;
     private boolean isInit;
-    private PullRefreshListener<CourseValidationForTeacher> pullRefreshListener;
+    private PullRefreshListener<CourseValidation> pullRefreshListener;
     private FragmentCourseManager fManager;
     public BaseFragment(){
     }
@@ -45,17 +44,17 @@ public abstract class BaseFragment extends Fragment {
         mContext = (BaseActivity) getActivity();
         fManager = FragmentCourseManager.getInstance(mContext);
         onInitData();
-        pullRefreshListener = new PullRefreshListener<CourseValidationForTeacher>(fManager.getData(),fManager.getAdapter()) {
+        pullRefreshListener = new PullRefreshListener<CourseValidation>(fManager.getData(),fManager.getAdapter()) {
             //msg.what为100是加载最新，200为加载更多
             @Override
-            public void updataRefresh(CommonBaseAdapter adapter, List<CourseValidationForTeacher> data, Message msg, Handler handler) {
+            public void updataRefresh(CommonBaseAdapter adapter, List<CourseValidation> data, Message msg, Handler handler) {
                 handler.sendMessageDelayed(msg, 1500);
                 fManager.setPage(0);
                 refreshData();
             }
 
             @Override
-            public void updataLoadMore(CommonBaseAdapter adapter, List<CourseValidationForTeacher> data, Message msg, Handler handler) {
+            public void updataLoadMore(CommonBaseAdapter adapter, List<CourseValidation> data, Message msg, Handler handler) {
                 handler.sendMessageDelayed(msg, 1500);
                 fManager.setPage(fManager.getPage()+1);
                 refreshData();
@@ -129,7 +128,7 @@ public abstract class BaseFragment extends Fragment {
             @Override
             public void onSuccess(String t) {
                 super.onSuccess(t);
-                GeneralResponse<List<CourseValidationForTeacher>> response = new Gson().fromJson(t, new TypeToken<GeneralResponse<List<CourseValidationForTeacher>>>() {
+                GeneralResponse<List<CourseValidation>> response = new Gson().fromJson(t, new TypeToken<GeneralResponse<List<CourseValidation>>>() {
                 }.getType());
                 if (response.isSuccess()) {
                     if (fManager.getPage() == 0) {
@@ -160,11 +159,11 @@ public abstract class BaseFragment extends Fragment {
     }
 
 
-    public PullRefreshListener<CourseValidationForTeacher> getPullRefreshListener() {
+    public PullRefreshListener<CourseValidation> getPullRefreshListener() {
         return pullRefreshListener;
     }
 
-    public void setPullRefreshListener(PullRefreshListener<CourseValidationForTeacher> pullRefreshListener) {
+    public void setPullRefreshListener(PullRefreshListener<CourseValidation> pullRefreshListener) {
         this.pullRefreshListener = pullRefreshListener;
     }
 

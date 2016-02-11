@@ -4,9 +4,8 @@ import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -17,15 +16,16 @@ import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.ui.BindView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import cn.horry.teaching_information_exchange.R;
 import cn.horry.teaching_information_exchange.adapter.SignInStudentsAdapter;
 import cn.horry.teaching_information_exchange.api.CourseApi;
 import cn.horry.teaching_information_exchange.api.ValidationApi;
 import cn.horry.teaching_information_exchange.entity.AllValidationStudents;
-import cn.horry.teaching_information_exchange.entity.Course;
-import cn.horry.teaching_information_exchange.entity.CourseValidationForTeacher;
+import cn.horry.teaching_information_exchange.entity.CourseValidation;
 import cn.horry.teaching_information_exchange.entity.GeneralResponse;
+import cn.horry.teaching_information_exchange.entity.ValidationForStudent;
 import cn.horry.teaching_information_exchange.widget.SignInDialog;
 
 public class SignInCourseTeacherActivity extends BaseActivity implements View.OnClickListener{
@@ -49,6 +49,8 @@ public class SignInCourseTeacherActivity extends BaseActivity implements View.On
     private TextView validation_state;
     @BindView(id = R.id.validation_state_change , click = true)
     private View validation_state_change;
+    @BindView(id = R.id.students)
+    private ListView students;
     private static final int VIDEO_CONTENT_DESC_MAX_LINE = 4;// 默认展示最大行数3行
     private static final int SHOW_CONTENT_NONE_STATE = 0;// 扩充
     private static final int SHRINK_UP_STATE = 1;// 收起状态
@@ -56,7 +58,7 @@ public class SignInCourseTeacherActivity extends BaseActivity implements View.On
     private static int mState = SHRINK_UP_STATE;
     private Drawable up;
     private Drawable down;
-    private CourseValidationForTeacher course;
+    private CourseValidation course;
     private SignInDialog.Builder builder;
     private AllValidationStudents allValidationStudents=new AllValidationStudents();
     private SignInStudentsAdapter signInStudentsAdapter;
@@ -78,7 +80,7 @@ public class SignInCourseTeacherActivity extends BaseActivity implements View.On
 
     @Override
     public void initData() {
-        course = (CourseValidationForTeacher)getIntent().getSerializableExtra("Course");
+        course = (CourseValidation)getIntent().getSerializableExtra("Course");
         CourseApi.getAllValidationStudents(course.getvId(), course.getId(), new HttpCallBack() {
             @Override
             public void onSuccess(String t) {
@@ -95,7 +97,7 @@ public class SignInCourseTeacherActivity extends BaseActivity implements View.On
                 super.onFailure(errorNo, strMsg);
             }
         });
-        signInStudentsAdapter = new SignInStudentsAdapter(this,allValidationStudents.getDatas(),R.layout.sign_in_course_listview_item);
+        signInStudentsAdapter = new SignInStudentsAdapter(this,new ArrayList<ValidationForStudent>(),R.layout.sign_in_course_listview_item);
     }
 
     @Override
@@ -118,6 +120,7 @@ public class SignInCourseTeacherActivity extends BaseActivity implements View.On
         down = getResources().getDrawable(R.mipmap.detail_down);
         down.setBounds(0,0,down.getMinimumWidth(),down.getMinimumHeight());
         students_sign_in_all.setText("1/2");
+        students.setAdapter(signInStudentsAdapter);
     }
 
     @Override
