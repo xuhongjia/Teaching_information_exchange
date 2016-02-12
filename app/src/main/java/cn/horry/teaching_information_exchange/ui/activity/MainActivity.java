@@ -97,6 +97,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 currIndex = position;
                 animation.setFillAfter(true);
                 animation.setDuration(100);
+                toolbar.getMenu().clear();
                 switch (position)
                 {
                     case 0:
@@ -115,10 +116,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         break;
                     case 2:
                         feedback.setChecked(true);
-                        if(isTeacher)
-                        {
-                            toolbar.getMenu().clear();
-                        }
                         break;
                     default:
                         break;

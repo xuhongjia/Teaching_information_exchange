@@ -67,9 +67,7 @@ public class SignInCourseTeacherActivity extends BaseActivity implements View.On
         public void handleMessage(Message msg) {
             if(msg.what==2000)
             {
-                students_sign_in_all.setText(allValidationStudents.getDatas().size()+"/"+allValidationStudents.getCount());
-                signInStudentsAdapter.setMdatas(allValidationStudents.getDatas());
-                signInStudentsAdapter.notifyDataSetChanged();
+                handlerSetData();
             }
         }
     };
@@ -181,5 +179,25 @@ public class SignInCourseTeacherActivity extends BaseActivity implements View.On
             default:
                 break;
         }
+    }
+    //handler事件执行的方法
+    public void handlerSetData(){
+        if(allValidationStudents.getDatas().size()==allValidationStudents.getCount())
+        {
+            students_sign_in_all.setText("已全签到");
+            ValidationApi.updateValidationState(1, course.getvId(), new HttpCallBack() {
+                @Override
+                public void onSuccess(String t) {
+                    validation_state.setText("签到结束");
+                    course.setState(1);
+                }
+            });
+        }
+        else
+        {
+            students_sign_in_all.setText(allValidationStudents.getDatas().size()+"/"+allValidationStudents.getCount());
+        }
+        signInStudentsAdapter.setMdatas(allValidationStudents.getDatas());
+        signInStudentsAdapter.notifyDataSetChanged();
     }
 }

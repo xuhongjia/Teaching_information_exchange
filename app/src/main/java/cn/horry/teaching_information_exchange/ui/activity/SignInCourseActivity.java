@@ -2,17 +2,18 @@ package cn.horry.teaching_information_exchange.ui.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
-import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
-import com.amap.api.maps2d.AMapUtils;
-import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -21,7 +22,6 @@ import org.kymjs.kjframe.ui.BindView;
 
 import cn.horry.teaching_information_exchange.R;
 import cn.horry.teaching_information_exchange.api.ValidationApi;
-import cn.horry.teaching_information_exchange.entity.Course;
 import cn.horry.teaching_information_exchange.entity.CourseValidation;
 import cn.horry.teaching_information_exchange.entity.GeneralResponse;
 import cn.horry.teaching_information_exchange.entity.ValidationForStudent;
@@ -60,6 +60,8 @@ public class SignInCourseActivity extends BaseActivity implements View.OnClickLi
     private View location_progress;
     @BindView(id = R.id.sign_in_ing)
     private View sign_in_ing;
+    @BindView(id = R.id.validated_text)
+    private TextView validated_text;
     private CourseValidation course;
     private static final int VIDEO_CONTENT_DESC_MAX_LINE = 4;// 默认展示最大行数3行
     private static final int SHOW_CONTENT_NONE_STATE = 0;// 扩充
@@ -118,6 +120,11 @@ public class SignInCourseActivity extends BaseActivity implements View.OnClickLi
             showView(true, validation, validated);
         }
         gdMap.startLoction();
+        if(course.getState()>0)
+        {
+            validated_text.setText("签到已结束");
+            showView(false, validation, validated);
+        }
     }
 
     @Override
@@ -150,6 +157,9 @@ public class SignInCourseActivity extends BaseActivity implements View.OnClickLi
                 gdMap.startLoction();
                 break;
             case R.id.start_verify://提交
+                //隐藏软键盘
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 SignIn();
                 break;
             default:
@@ -183,6 +193,7 @@ public class SignInCourseActivity extends BaseActivity implements View.OnClickLi
                     if(response.isSuccess())
                     {
                         showView(true,validated,sign_in_ing);
+                        course.setValidation_state(1);
                     }
                 }
 
@@ -197,7 +208,7 @@ public class SignInCourseActivity extends BaseActivity implements View.OnClickLi
     }
 
     private boolean checkValidation(){
-        if(verification_code.getText().toString().trim().length()>=4)
+        if(verification_code.getText().toString().trim().length()!=4)
         {
             showShortText("请填写4位验证码！");
             return false;

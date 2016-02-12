@@ -2,28 +2,13 @@ package cn.horry.teaching_information_exchange.ui.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.ui.AnnotateUtil;
 
-import java.util.List;
-
-import cn.horry.teaching_information_exchange.adapter.CommonBaseAdapter;
-import cn.horry.teaching_information_exchange.api.CourseApi;
-import cn.horry.teaching_information_exchange.entity.CourseValidation;
-import cn.horry.teaching_information_exchange.entity.GeneralResponse;
-import cn.horry.teaching_information_exchange.listener.PullRefreshListener;
-import cn.horry.teaching_information_exchange.ui.FragmentCourseManager;
-import cn.horry.teaching_information_exchange.ui.UserManager;
 import cn.horry.teaching_information_exchange.ui.activity.BaseActivity;
 
 /**
@@ -33,8 +18,6 @@ public abstract class BaseFragment extends Fragment {
     private BaseActivity mContext = null;
     private View rootView;
     private boolean isInit;
-    private PullRefreshListener<CourseValidation> pullRefreshListener;
-    private FragmentCourseManager fManager;
     public BaseFragment(){
     }
     //视图创建完成
@@ -42,24 +25,7 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mContext = (BaseActivity) getActivity();
-        fManager = FragmentCourseManager.getInstance(mContext);
         onInitData();
-        pullRefreshListener = new PullRefreshListener<CourseValidation>(fManager.getData(),fManager.getAdapter()) {
-            //msg.what为100是加载最新，200为加载更多
-            @Override
-            public void updataRefresh(CommonBaseAdapter adapter, List<CourseValidation> data, Message msg, Handler handler) {
-                handler.sendMessageDelayed(msg, 1500);
-                fManager.setPage(0);
-                refreshData();
-            }
-
-            @Override
-            public void updataLoadMore(CommonBaseAdapter adapter, List<CourseValidation> data, Message msg, Handler handler) {
-                handler.sendMessageDelayed(msg, 1500);
-                fManager.setPage(fManager.getPage()+1);
-                refreshData();
-            }
-        };
         onInitView();
     }
 
@@ -121,57 +87,12 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 数据刷新
      */
-    public void refreshData(){
-        int id = UserManager.getInstance().getUser().getId();
-        int isTeacher = UserManager.getInstance().getUser().getIsTeacher();
-        CourseApi.getValidationCourse(id, isTeacher, fManager.getPage(), new HttpCallBack() {
-            @Override
-            public void onSuccess(String t) {
-                super.onSuccess(t);
-                GeneralResponse<List<CourseValidation>> response = new Gson().fromJson(t, new TypeToken<GeneralResponse<List<CourseValidation>>>() {
-                }.getType());
-                if (response.isSuccess()) {
-                    if (fManager.getPage() == 0) {
-                        fManager.setData(response.getData());
-                        fManager.getAdapter().setMdatas(fManager.getData());
-                        fManager.getAdapter().notifyDataSetChanged();
-                    } else if (response.getData().size() != 0) {
-                        fManager.getData().addAll(response.getData());
-                        fManager.getAdapter().notifyDataSetChanged();
-                    } else {
-                        fManager.setPage(fManager.getPage() - 1);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(int errorNo, String strMsg) {
-                super.onFailure(errorNo, strMsg);
-            }
-        });
-    }
+    public abstract void refreshData();
     public View getRootView() {
         return rootView;
     }
 
     public void setRootView(View rootView) {
         this.rootView = rootView;
-    }
-
-
-    public PullRefreshListener<CourseValidation> getPullRefreshListener() {
-        return pullRefreshListener;
-    }
-
-    public void setPullRefreshListener(PullRefreshListener<CourseValidation> pullRefreshListener) {
-        this.pullRefreshListener = pullRefreshListener;
-    }
-
-    public FragmentCourseManager getfManager() {
-        return fManager;
-    }
-
-    public void setfManager(FragmentCourseManager fManager) {
-        this.fManager = fManager;
     }
 }
