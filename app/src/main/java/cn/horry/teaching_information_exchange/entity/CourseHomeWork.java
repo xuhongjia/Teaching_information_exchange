@@ -1,6 +1,7 @@
 package cn.horry.teaching_information_exchange.entity;
 
-public class CourseHomeWork extends Course{
+
+public class CourseHomeWork extends Course {
 	private Integer hId;
 	public Integer gethId() {
 		return hId;

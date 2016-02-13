@@ -56,8 +56,12 @@
         <activity android:name=".ui.activity.SignInCourseActivity" />
         <activity android:name=".ui.activity.AddSignActivity" />
         <activity android:name=".ui.activity.SelectCourseActivity" />
-        <activity android:name=".ui.activity.SignInCourseTeacherActivity"></activity>
-        <service android:name="com.amap.api.location.APSService"></service>
+        <activity android:name=".ui.activity.SignInCourseTeacherActivity" />
+
+        <service android:name="com.amap.api.location.APSService" />
+
+        <activity android:name=".ui.activity.HomeWorkTeacherActivity" />
+        <activity android:name=".ui.activity.HomeWorkActivity"></activity>
     </application>
 
 </manifest>

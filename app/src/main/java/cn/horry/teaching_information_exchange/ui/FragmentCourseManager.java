@@ -33,7 +33,7 @@ public class FragmentCourseManager {
         return _FragmentCourseManager;
     }
     public void initData(){
-        adapter = new CommonBaseAdapter<CourseValidation>(context,data, R.layout.sign_in_listview_item) {
+        adapter = new CommonBaseAdapter<CourseValidation>(context,data, R.layout.listview_item) {
             @Override
             public void convert(ViewHolder holder, CourseValidation course) {
                 TextView course_name = holder.getView(R.id.course_name);

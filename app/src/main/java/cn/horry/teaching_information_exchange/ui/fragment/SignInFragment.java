@@ -27,9 +27,7 @@ import cn.horry.teaching_information_exchange.api.CourseApi;
 import cn.horry.teaching_information_exchange.entity.CourseValidation;
 import cn.horry.teaching_information_exchange.entity.GeneralResponse;
 import cn.horry.teaching_information_exchange.listener.PullRefreshListener;
-import cn.horry.teaching_information_exchange.ui.FragmentCourseManager;
 import cn.horry.teaching_information_exchange.ui.UserManager;
-import cn.horry.teaching_information_exchange.ui.activity.BaseActivity;
 import cn.horry.teaching_information_exchange.ui.activity.SignInCourseActivity;
 import cn.horry.teaching_information_exchange.ui.activity.SignInCourseTeacherActivity;
 import cn.horry.teaching_information_exchange.widget.PullToRefreshLayout;
@@ -54,7 +52,7 @@ public class SignInFragment extends BaseFragment {
     }
     @Override
     public void onInitData() {
-        adapter = new GetSignInCourseAdapter(getmContext(),data,R.layout.sign_in_listview_item);
+        adapter = new GetSignInCourseAdapter(getmContext(),data,R.layout.listview_item);
         pullRefreshListener = new PullRefreshListener<CourseValidation>(data, adapter) {
             //msg.what为100是加载最新，200为加载更多
             @Override

@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="60dp"
+                android:layout_marginLeft="80dp"
                 android:background="@mipmap/pull_icon_big" />
 
             <ImageView
@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="60dp"
+                android:layout_marginLeft="80dp"
                 android:background="@mipmap/refreshing"
                 android:visibility="gone" />
 

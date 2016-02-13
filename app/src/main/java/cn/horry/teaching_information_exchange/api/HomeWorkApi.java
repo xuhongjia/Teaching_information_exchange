@@ -7,19 +7,17 @@ import org.kymjs.kjframe.http.Request;
 import cn.horry.teaching_information_exchange.utils.MyHttpParams;
 
 /**
- * Created by Administrator on 2016/1/29.
+ * Created by Myy on 2016/2/13.
  */
-public class CourseApi extends API {
-    public static void getValidationCourse(int uId , int isTeacher ,int page, HttpCallBack httpCallBack){
-        String url = URL.concat("action/course/getValidationCourse");
+public class HomeWorkApi extends API {
+    public static void getCourseHomeWork(int uId , int isTeacher ,int page, HttpCallBack httpCallBack){
+        String url = URL.concat("action/homework/getHomeWorkCourse");
         MyHttpParams params = new MyHttpParams("uId",uId,"isTeacher",isTeacher,"page",page);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
     }
-    public static void  getAllValidationStudents(int vId,int cId,HttpCallBack httpCallBack)
-    {
-        String url = URL.concat("action/course/getAllValidationStudents");
-        HttpParams params =new MyHttpParams("vId",vId,"cId",cId);
+    public static void updateHomeWork(int hId,String Content,HttpCallBack httpCallBack){
+        String url = URL.concat("action/homework/updateHomeWork");
+        HttpParams params = new MyHttpParams("hId",hId,"content",Content);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
     }
-
 }
