@@ -8,7 +8,6 @@ import android.os.Build;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 
@@ -23,7 +22,6 @@ import cn.horry.teaching_information_exchange.entity.Course;
 import cn.horry.teaching_information_exchange.entity.Validation;
 import cn.horry.teaching_information_exchange.ui.UserManager;
 import cn.horry.teaching_information_exchange.utils.GDMap;
-import cn.horry.teaching_information_exchange.utils.TimeCount;
 
 public class AddSignActivity extends BaseActivity implements View.OnClickListener {
     @BindView(id = R.id.left ,click = true)

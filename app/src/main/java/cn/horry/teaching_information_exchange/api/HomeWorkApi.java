@@ -4,6 +4,7 @@ import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpParams;
 import org.kymjs.kjframe.http.Request;
 
+import cn.horry.teaching_information_exchange.entity.HomeWork;
 import cn.horry.teaching_information_exchange.utils.MyHttpParams;
 
 /**
@@ -18,6 +19,11 @@ public class HomeWorkApi extends API {
     public static void updateHomeWork(int hId,String Content,HttpCallBack httpCallBack){
         String url = URL.concat("action/homework/updateHomeWork");
         HttpParams params = new MyHttpParams("hId",hId,"content",Content);
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
+    }
+    public static void addHomeWork(HomeWork homeWork ,HttpCallBack httpCallBack){
+        String url = URL.concat("action/homework/addHomeWork");
+        HttpParams params = new MyHttpParams(homeWork);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
     }
 }

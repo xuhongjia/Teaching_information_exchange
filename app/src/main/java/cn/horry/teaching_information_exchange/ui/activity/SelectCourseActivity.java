@@ -35,6 +35,7 @@ public class SelectCourseActivity extends BaseActivity implements View.OnClickLi
     private TextView left;
     @BindView(id = R.id.title)
     private TextView title;
+    private int flag;
     @Override
     public void setRootView() {
         setContentView(R.layout.activity_select_course);
@@ -43,6 +44,7 @@ public class SelectCourseActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void initData() {
         user = UserManager.getInstance().getUser();
+        flag = getIntent().getIntExtra("flag",0);
         selectCourseAdapter = new SelectCourseAdapter(this, new ArrayList<Course>(),R.layout.select_course_list_item);
         select_course.setAdapter(selectCourseAdapter);
         UserApi.getCourse(user.getId(), user.getIsTeacher(), new HttpCallBack() {
@@ -75,7 +77,22 @@ public class SelectCourseActivity extends BaseActivity implements View.OnClickLi
                 //跳转到详细界面
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Course",course);
-                Intent intent = new Intent(SelectCourseActivity.this, AddSignActivity.class);
+                Intent intent ;
+                switch (flag)
+                {
+                    case 0:
+                        intent = new Intent(SelectCourseActivity.this, AddSignActivity.class);
+                        break;
+                    case 1:
+                        intent = new Intent(SelectCourseActivity.this, AddHomeWorkActivity.class);
+                        break;
+                    case 2:
+                        intent = new Intent(SelectCourseActivity.this, AddSignActivity.class);
+                        break;
+                    default:
+                        intent = new Intent();
+                        break;
+                }
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();

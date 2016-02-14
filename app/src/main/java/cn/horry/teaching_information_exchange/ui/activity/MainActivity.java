@@ -267,20 +267,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this,SelectCourseActivity.class);
         switch (currIndex)
         {
             case 0://签到
-                startActivity(new Intent(this,SelectCourseActivity.class));
+                intent.putExtra("flag",0);
                 break;
             case 1://作业
-                startActivity(new Intent(this,SelectCourseActivity.class));
+                intent.putExtra("flag", 1);
                 break;
             case 2://反馈信息
-                startActivity(new Intent(this,SelectCourseActivity.class));
+                intent.putExtra("flag",2);
                 break;
             default:
                 break;
         }
+        startActivity(intent);
         return true;
     }
 

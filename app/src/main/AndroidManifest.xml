@@ -61,7 +61,8 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name=".ui.activity.HomeWorkTeacherActivity" />
-        <activity android:name=".ui.activity.HomeWorkActivity"></activity>
+        <activity android:name=".ui.activity.HomeWorkActivity" />
+        <activity android:name=".ui.activity.AddHomeWorkActivity"></activity>
     </application>
 
 </manifest>
