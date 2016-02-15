@@ -7,10 +7,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.ui.BindView;
 
 import cn.horry.teaching_information_exchange.R;
+import cn.horry.teaching_information_exchange.api.HomeWorkApi;
 import cn.horry.teaching_information_exchange.entity.Course;
+import cn.horry.teaching_information_exchange.entity.GeneralResponse;
 import cn.horry.teaching_information_exchange.entity.HomeWork;
 
 public class AddHomeWorkActivity extends BaseActivity implements View.OnClickListener{
@@ -89,6 +95,22 @@ public class AddHomeWorkActivity extends BaseActivity implements View.OnClickLis
                 homeWork.setContent(home_work_content.getText().toString().trim());
                 homeWork.setcId(course.getId());
                 homeWork.setTime(System.currentTimeMillis());
+                HomeWorkApi.addHomeWork(homeWork, new HttpCallBack() {
+                    @Override
+                    public void onSuccess(String t) {
+                        GeneralResponse<Integer> response = new Gson().fromJson(t,new TypeToken<GeneralResponse<Integer>>(){}.getType());
+                        if (response.isSuccess())
+                        {
+                            showShortText("添加成功！");
+                            finish();
+                        }
+                    }
+                    @Override
+                    public void onFailure(int errorNo, String strMsg) {
+                        super.onFailure(errorNo, strMsg);
+                        showShortText("添加失败！");
+                    }
+                });
                 break;
             default:
                 break;
