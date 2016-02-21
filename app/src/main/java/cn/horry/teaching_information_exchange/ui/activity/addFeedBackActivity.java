@@ -1,10 +1,7 @@
 package cn.horry.teaching_information_exchange.ui.activity;
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -13,36 +10,37 @@ import com.google.gson.reflect.TypeToken;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.ui.BindView;
 
+
 import cn.horry.teaching_information_exchange.R;
-import cn.horry.teaching_information_exchange.api.HomeWorkApi;
+import cn.horry.teaching_information_exchange.api.FeedBackApi;
 import cn.horry.teaching_information_exchange.entity.Course;
+import cn.horry.teaching_information_exchange.entity.FeedBack;
 import cn.horry.teaching_information_exchange.entity.GeneralResponse;
-import cn.horry.teaching_information_exchange.entity.HomeWork;
+import cn.horry.teaching_information_exchange.ui.UserManager;
 
-public class AddHomeWorkActivity extends BaseActivity implements View.OnClickListener{
+public class addFeedBackActivity extends BaseActivity implements View.OnClickListener {
 
-    @BindView(id = R.id.left ,click = true)
+    @BindView(id = R.id.left , click = true)
     private TextView left;
     @BindView(id = R.id.title)
     private TextView title;
-    @BindView(id = R.id.content)
-    private TextView content;
+    @BindView(id = R.id.course_content)
+    private TextView course_content;
     @BindView(id = R.id.course_title)
     private TextView course_title;
     @BindView(id = R.id.show_more , click = true)
     private View show_more;
     @BindView(id = R.id.show_more_text)
     private TextView show_more_text;
-    @BindView(id = R.id.home_work_content)
-    private TextView home_work_content;
-    @BindView(id = R.id.add , click = true)
-    private View add;
+    @BindView(id = R.id.content)
+    private EditText content;
+    @BindView(id = R.id.submit , click = true)
+    private View submit;
     private Course course;
     @Override
     public void setRootView() {
-        setContentView(R.layout.activity_add_home_work);
+        setContentView(R.layout.activity_add_feed_back);
     }
-
     @Override
     public void initData() {
         course = (Course) getIntent().getSerializableExtra("Course");
@@ -50,11 +48,11 @@ public class AddHomeWorkActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void initWidget() {
-        title.setText("添加课程作业");
+        title.setText("添加课程问题");
         left.setVisibility(View.VISIBLE);
         left.setText("");
         course_title.setText(course.getName());
-        content.setText(course.getContent());
+        course_content.setText(course.getContent());
     }
 
     @Override
@@ -66,38 +64,39 @@ public class AddHomeWorkActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.show_more:
                 if (mState == SPREAD_STATE) {
-                    content.setMaxLines(VIDEO_CONTENT_DESC_MAX_LINE);
-                    content.requestLayout();
+                    course_content.setMaxLines(VIDEO_CONTENT_DESC_MAX_LINE);
+                    course_content.requestLayout();
                     show_more_text.setText("收起");
                     show_more_text.setCompoundDrawables(null,null,up,null);
                     mState = SHRINK_UP_STATE;
                 } else if (mState == SHRINK_UP_STATE) {
-                    content.setMaxLines(Integer.MAX_VALUE);
-                    content.requestLayout();
+                    course_content.setMaxLines(Integer.MAX_VALUE);
+                    course_content.requestLayout();
                     show_more_text.setText("更多");
                     show_more_text.setCompoundDrawables(null,null,down,null);
                     mState = SPREAD_STATE;
                 }
                 break;
-            case R.id.add:
-                HomeWork homeWork = new HomeWork();
-                homeWork.setContent(home_work_content.getText().toString().trim());
-                homeWork.setcId(course.getId());
-                homeWork.setTime(System.currentTimeMillis());
-                HomeWorkApi.addHomeWork(homeWork, new HttpCallBack() {
+            case R.id.submit:
+                FeedBack feedBack = new FeedBack();
+                feedBack.setContent(content.getText().toString().trim());
+                feedBack.setcId(course.getId());
+                feedBack.setuId(UserManager.getInstance().getUser().getId());
+                feedBack.setTime(System.currentTimeMillis());
+                FeedBackApi.addFeedBack(feedBack, new HttpCallBack() {
                     @Override
                     public void onSuccess(String t) {
-                        GeneralResponse<Integer> response = new Gson().fromJson(t,new TypeToken<GeneralResponse<Integer>>(){}.getType());
-                        if (response.isSuccess())
+                        GeneralResponse<Integer> response = new Gson().fromJson(t, new TypeToken<GeneralResponse<Integer>>(){}.getType());
+                        if(response.isSuccess())
                         {
-                            showShortText("添加成功！");
+                            showShortText("添加成功，请等待老师查看！");
                             finish();
                         }
                     }
                     @Override
                     public void onFailure(int errorNo, String strMsg) {
                         super.onFailure(errorNo, strMsg);
-                        showShortText("添加失败！");
+                        showShortText("添加失败，请查看网络状态！");
                     }
                 });
                 break;

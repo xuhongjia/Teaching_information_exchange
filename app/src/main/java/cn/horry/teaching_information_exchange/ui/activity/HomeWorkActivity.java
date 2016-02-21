@@ -24,6 +24,8 @@ public class HomeWorkActivity extends BaseActivity implements View.OnClickListen
     private TextView time;
     @BindView(id = R.id.content)
     private TextView content;
+    @BindView(id = R.id.teacher_name)
+    private TextView teacher_name;
     private CourseHomeWork courseHomeWork;
     @Override
     public void setRootView() {
@@ -43,6 +45,7 @@ public class HomeWorkActivity extends BaseActivity implements View.OnClickListen
         course_title.setText(courseHomeWork.getName());
         time.setText(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(courseHomeWork.getTime()));
         content.setText(courseHomeWork.getContent());
+        teacher_name.setText(courseHomeWork.getT_name());
     }
 
     @Override

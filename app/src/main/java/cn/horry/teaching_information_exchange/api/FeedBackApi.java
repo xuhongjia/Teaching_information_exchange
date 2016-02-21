@@ -17,7 +17,7 @@ public class FeedBackApi extends API {
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
     }
 
-    public static void getFeedBackForStudent(int uId,int page,HttpCallBack httpCallBack){
+    public static void getFeedBackForStudent( int uId, int page, HttpCallBack httpCallBack){
         String url = URL.concat("action/homework/getFeedBackForStudent");
         HttpParams params = new MyHttpParams("uId",uId,"page",page);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
@@ -26,6 +26,11 @@ public class FeedBackApi extends API {
     public static void getFeedBackForTeacher(int cId,HttpCallBack httpCallBack){
         String url = URL.concat("action/homework/getFeedBackForTeacher");
         HttpParams params = new MyHttpParams("cId",cId);
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
+    }
+    public static void updateFeedBack(String content , int fId , HttpCallBack httpCallBack){
+        String url = URL.concat("action/homework/updateFeedBack");
+        HttpParams params = new MyHttpParams("content",content,"fId",fId);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
     }
 }

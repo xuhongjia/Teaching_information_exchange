@@ -62,7 +62,10 @@
 
         <activity android:name=".ui.activity.HomeWorkTeacherActivity" />
         <activity android:name=".ui.activity.HomeWorkActivity" />
-        <activity android:name=".ui.activity.AddHomeWorkActivity"></activity>
+        <activity android:name=".ui.activity.AddHomeWorkActivity" />
+        <activity android:name=".ui.activity.addFeedBackActivity" />
+        <activity android:name=".ui.activity.FeedBackActivity" />
+        <activity android:name=".ui.activity.FeedBackTeacherActivity"></activity>
     </application>
 
 </manifest>

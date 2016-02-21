@@ -52,13 +52,6 @@ public class AddSignActivity extends BaseActivity implements View.OnClickListene
     private View location_progress;
     @BindView(id = R.id.create_validation , click = true)
     private View create_validation;
-    private static final int VIDEO_CONTENT_DESC_MAX_LINE = 4;// 默认展示最大行数3行
-    private static final int SHOW_CONTENT_NONE_STATE = 0;// 扩充
-    private static final int SHRINK_UP_STATE = 1;// 收起状态
-    private static final int SPREAD_STATE = 2;// 展开状态
-    private static int mState = SHRINK_UP_STATE;
-    private Drawable up;
-    private Drawable down;
     private Course course;
     private GDMap gdMap;
     private Double Tx;
@@ -96,10 +89,6 @@ public class AddSignActivity extends BaseActivity implements View.OnClickListene
         left.setText("");
         course_title.setText(course.getName());
         content.setText(course.getContent());
-        up = getResources().getDrawable(R.mipmap.detail_up);
-        up.setBounds(0,0,up.getMinimumWidth(),up.getMinimumHeight());
-        down = getResources().getDrawable(R.mipmap.detail_down);
-        down.setBounds(0, 0, down.getMinimumWidth(), down.getMinimumHeight());
         gdMap.startLoction();
     }
 
