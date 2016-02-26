@@ -4,6 +4,8 @@ import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.HttpParams;
 import org.kymjs.kjframe.http.Request;
 
+import cn.horry.teaching_information_exchange.entity.Course;
+import cn.horry.teaching_information_exchange.entity.Student_Course;
 import cn.horry.teaching_information_exchange.utils.MyHttpParams;
 
 /**
@@ -21,5 +23,14 @@ public class CourseApi extends API {
         HttpParams params =new MyHttpParams("vId",vId,"cId",cId);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
     }
-
+    public static void addCourse(Course course , HttpCallBack httpCallBack){
+        String url = URL.concat("action/course/addCourse");
+        HttpParams params =new MyHttpParams(course);
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
+    }
+    public static void addStudentCourse(Student_Course student_course ,HttpCallBack httpCallBack){
+        String url = URL.concat("action/course/addStudentCourse");
+        HttpParams params =new MyHttpParams(student_course);
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
+    }
 }

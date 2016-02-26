@@ -295,13 +295,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.my_sign_in) {
-
+            sign_in.setChecked(true);
         } else if (id == R.id.my_home_work) {
-
+            homework.setChecked(true);
         } else if (id == R.id.my_feed_back) {
-
+            feedback.setChecked(true);
         } else if (id == R.id.login_out) {
             UserManager.getInstance().setUser(null);
             finish();
