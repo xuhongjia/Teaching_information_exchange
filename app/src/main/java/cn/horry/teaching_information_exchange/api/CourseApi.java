@@ -33,4 +33,8 @@ public class CourseApi extends API {
         HttpParams params =new MyHttpParams(student_course);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
     }
+    public static void getAllCourse(HttpCallBack httpCallBack){
+        String url = URL.concat("action/course/getAllCourse");
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).callback(httpCallBack).useCache(true).request();
+    }
 }
