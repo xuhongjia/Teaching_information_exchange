@@ -44,6 +44,7 @@ public class CourseInfoActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void initData() {
+        user= UserManager.getInstance().getUser();
         UserApi.getCourse(user.getId(), user.getIsTeacher(), new HttpCallBack() {
             @Override
             public void onSuccess(String t) {
@@ -51,6 +52,7 @@ public class CourseInfoActivity extends BaseActivity implements View.OnClickList
                 if (response.isSuccess())
                 {
                     data=response.getData();
+                    selectCourseAdapter.setMdatas(data);
                     selectCourseAdapter.notifyDataSetChanged();
                 }
             }
@@ -60,7 +62,6 @@ public class CourseInfoActivity extends BaseActivity implements View.OnClickList
                 super.onFailure(errorNo, strMsg);
             }
         });
-        user= UserManager.getInstance().getUser();
         selectCourseAdapter=new SelectCourseAdapter(this,data,R.layout.select_course_list_item);
     }
 
@@ -70,6 +71,7 @@ public class CourseInfoActivity extends BaseActivity implements View.OnClickList
         left.setVisibility(View.VISIBLE);
         title.setText("我的课程");
         right.setText("添加");
+        right.setVisibility(View.VISIBLE);
         my_course.setAdapter(selectCourseAdapter);
         my_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -89,7 +91,7 @@ public class CourseInfoActivity extends BaseActivity implements View.OnClickList
             case R.id.right:
                 if (user.getIsTeacher()==0)
                 {//学生添加选课
-
+                    startActivity(new Intent(this,SelectCourseForStudentActivity.class));
                 }else{
                     //教师跳转到添加课程信息
                     startActivity(new Intent(this,addCourseActivity.class));

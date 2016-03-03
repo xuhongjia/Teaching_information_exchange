@@ -21,8 +21,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="课程名："
-                android:editable="false"
-                android:clickable="false"
                 android:textSize="20sp"
                 />
         </android.support.design.widget.TextInputLayout>

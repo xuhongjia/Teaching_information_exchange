@@ -3,6 +3,8 @@ package cn.horry.teaching_information_exchange.api;
 import org.kymjs.kjframe.http.HttpCallBack;
 import org.kymjs.kjframe.http.Request;
 
+import java.io.File;
+
 import cn.horry.teaching_information_exchange.entity.User;
 import cn.horry.teaching_information_exchange.utils.MyHttpParams;
 
@@ -28,6 +30,17 @@ public class UserApi extends API{
     public static void update(User user,HttpCallBack httpCallBack){
         String url = URL.concat("action/user/update");
         MyHttpParams params = new MyHttpParams(user);
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
+    }
+    public static void updateUserImg(String img,int id,HttpCallBack httpCallBack){
+        String url = URL.concat("action/user/updateImg");
+        MyHttpParams params = new MyHttpParams("img",img,"id",id);
+        builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
+    }
+    public static void uploadImg(File file,HttpCallBack httpCallBack){
+        String url = URL.concat("action/upload/filesUpload");
+        MyHttpParams params = new MyHttpParams();
+        params.put("pics",file);
         builderHttp.url(url).httpMethod(Request.HttpMethod.POST).params(params).callback(httpCallBack).useCache(false).request();
     }
 }
