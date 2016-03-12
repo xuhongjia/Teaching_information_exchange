@@ -82,6 +82,28 @@ public class CourseInfoActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        UserApi.getCourse(user.getId(), user.getIsTeacher(), new HttpCallBack() {
+            @Override
+            public void onSuccess(String t) {
+                GeneralResponse<List<Course>> response = new Gson().fromJson(t, new TypeToken<GeneralResponse<List<Course>>>() {
+                }.getType());
+                if (response.isSuccess()) {
+                    data = response.getData();
+                    selectCourseAdapter.setMdatas(data);
+                    selectCourseAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(int errorNo, String strMsg) {
+                super.onFailure(errorNo, strMsg);
+            }
+        });
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId())
         {

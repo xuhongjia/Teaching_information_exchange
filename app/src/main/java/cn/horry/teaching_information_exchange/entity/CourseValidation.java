@@ -7,7 +7,7 @@ public class CourseValidation extends Course {
 	private Long validate_time;
 	private Integer state;
 	private Integer vId;
-	private int validation_state;
+	private Integer validation_state;
 	public String getCode() {
 		return code;
 	}

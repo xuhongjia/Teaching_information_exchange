@@ -25,7 +25,7 @@ import cn.horry.teaching_information_exchange.entity.GeneralResponse;
 import cn.horry.teaching_information_exchange.entity.User;
 import cn.horry.teaching_information_exchange.ui.UserManager;
 
-public class SelectCourseForStudentActivity extends BaseActivity {
+public class SelectCourseForStudentActivity extends BaseActivity implements View.OnClickListener {
 
     private User user;
     private SelectCourseAdapter selectCourseAdapter ;
@@ -35,6 +35,7 @@ public class SelectCourseForStudentActivity extends BaseActivity {
     private TextView left;
     @BindView(id = R.id.title)
     private TextView title;
+
     @Override
     public void setRootView() {
         setContentView(R.layout.activity_select_course_for_student);
@@ -65,8 +66,8 @@ public class SelectCourseForStudentActivity extends BaseActivity {
 
     @Override
     public void initWidget() {
-        left.setVisibility(View.VISIBLE);
         left.setText("");
+        left.setVisibility(View.VISIBLE);
         title.setText("请选择课程");
         select_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -81,5 +82,13 @@ public class SelectCourseForStudentActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.left)
+        {
+            finish();
+        }
     }
 }

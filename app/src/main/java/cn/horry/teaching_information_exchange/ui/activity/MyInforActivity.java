@@ -16,9 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -66,11 +63,6 @@ public class MyInforActivity extends BaseActivity implements View.OnClickListene
     private static final int RESIZE_REQUEST_CODE = 2;
     private static final String IMAGE_FILE_NAME = "header.jpg";
     private String[] items = new String[]{"选择本地图片", "拍照"};
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     public void setRootView() {
