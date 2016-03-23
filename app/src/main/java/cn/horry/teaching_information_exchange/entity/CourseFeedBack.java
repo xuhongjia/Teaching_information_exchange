@@ -6,7 +6,6 @@ public class CourseFeedBack extends Course {
 	private String student_name;
 	private Integer student_id;
 	private String student_img;
-	private String t_name;
 	public Integer getfId() {
 		return fId;
 	}
@@ -44,14 +43,6 @@ public class CourseFeedBack extends Course {
 
 	public void setStudent_img(String student_img) {
 		this.student_img = student_img;
-	}
-
-	public String getT_name() {
-		return t_name;
-	}
-
-	public void setT_name(String t_name) {
-		this.t_name = t_name;
 	}
 	
 }

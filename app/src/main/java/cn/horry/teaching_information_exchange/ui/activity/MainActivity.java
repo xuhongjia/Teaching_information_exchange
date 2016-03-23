@@ -116,6 +116,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         break;
                     case 2:
                         feedback.setChecked(true);
+                        if(!isTeacher){
+                            getMenuInflater().inflate(R.menu.main_menu, toolBarMenu);
+                        }
                         break;
                     default:
                         break;

@@ -87,7 +87,7 @@ public class SelectCourseActivity extends BaseActivity implements View.OnClickLi
                         intent = new Intent(SelectCourseActivity.this, AddHomeWorkActivity.class);
                         break;
                     case 2:
-                        intent = new Intent(SelectCourseActivity.this, AddSignActivity.class);
+                        intent = new Intent(SelectCourseActivity.this, addFeedBackActivity.class);
                         break;
                     default:
                         intent = new Intent();
