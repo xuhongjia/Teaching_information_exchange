@@ -24,7 +24,7 @@ public class FeedBackTeacherAdapter extends CommonBaseAdapter<CourseFeedBack> {
     public void convert(ViewHolder holder, CourseFeedBack courseFeedBack) {
         holder.setText(R.id.id, courseFeedBack.getStudent_id() + "");
         ImageUrlLoaderWithCache.getInstence().ImageLoad(courseFeedBack.getStudent_img(), (RoundCornerImageView) holder.getView(R.id.img));
-        holder.setText(R.id.validation_time,simpleDateFormat.format(courseFeedBack.getTime()));
+        holder.setText(R.id.time , simpleDateFormat.format(courseFeedBack.getTime()).toString());
         holder.setText(R.id.name,courseFeedBack.getStudent_name());
         holder.setText(R.id.content,courseFeedBack.getFeed_content());
     }

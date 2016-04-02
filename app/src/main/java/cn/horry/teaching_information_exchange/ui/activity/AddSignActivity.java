@@ -167,6 +167,7 @@ public class AddSignActivity extends BaseActivity implements View.OnClickListene
         return true;
     }
 
+    //生成验证码
     public String getValidation(){
         int x;//定义两变量
         Random ne=new Random();//实例化一个random的对象ne

@@ -50,6 +50,7 @@ public class FeedBackTeacherActivity extends BaseActivity implements View.OnClic
                 if (response.isSuccess())
                 {
                     data = response.getData();
+                    adapter.setMdatas(data);
                     adapter.notifyDataSetChanged();
                 }
             }

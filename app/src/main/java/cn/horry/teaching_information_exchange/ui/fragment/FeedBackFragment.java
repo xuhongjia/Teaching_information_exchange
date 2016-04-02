@@ -36,6 +36,7 @@ import cn.horry.teaching_information_exchange.listener.PullRefreshListener;
 import cn.horry.teaching_information_exchange.ui.FragmentCourseManager;
 import cn.horry.teaching_information_exchange.ui.UserManager;
 import cn.horry.teaching_information_exchange.ui.activity.FeedBackActivity;
+import cn.horry.teaching_information_exchange.ui.activity.FeedBackTeacherActivity;
 import cn.horry.teaching_information_exchange.ui.fragment.BaseFragment;
 import cn.horry.teaching_information_exchange.widget.PullToRefreshLayout;
 import cn.horry.teaching_information_exchange.widget.PullableListView;
@@ -154,7 +155,7 @@ public class FeedBackFragment extends BaseFragment {
                 if (UserManager.getInstance().getUser().getIsTeacher() == 0) {
                     intent = new Intent(getmContext(), FeedBackActivity.class);
                 } else {
-                    intent = new Intent(getmContext(), FeedBackActivity.class);
+                    intent = new Intent(getmContext(), FeedBackTeacherActivity.class);
                 }
                 intent.putExtras(bundle);
                 startActivity(intent);
